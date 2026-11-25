@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Careers at Everest Digital Pvt. Ltd.</title>
+</head>
+
+<body>
+
+    <h2 align="center">Careers at Everest Digital Pvt. Ltd.</h2>
+
+    <p align="center">
+        Vacancy No. <b>ED/2026/07</b>
+        &nbsp;|&nbsp;
+        Position: <b>Junior Web Developer</b>
+    </p>
+
+    <form action="#" method="post" enctype="multipart/form-data">
+
+        <!-- Step 1 -->
+        <fieldset>
+            <legend><b>Step 1 of 4: About You</b></legend>
+
+            <table>
+                <tr>
+                    <td>Full Name</td>
+                    <td>
+                        <input type="text" name="full_name" size="30" autofocus required>
+                    </td>
+
+                    <td>Phone</td>
+                    <td>
+                        <input type="tel" name="phone">
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>Email</td>
+                    <td>
+                        <input type="email" name="email" size="30" required>
+                    </td>
+
+                    <td>LinkedIn / GitHub</td>
+                    <td>
+                        <input type="url" name="social_profile" size="30" placeholder="https://">
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>Portfolio Website</td>
+                    <td>
+                        <input type="url" name="portfolio" size="30" placeholder="https://">
+                    </td>
+
+                    <td>Where did you see this job?</td>
+                    <td>
+                        <input type="text" name="source">
+                    </td>
+                </tr>
+            </table>
+        </fieldset>
+
+
+        <!-- Step 2 -->
+        <fieldset>
+            <legend>
+                <b>Step 2 of 4: Work Experience</b>
+                (most recent first)
+            </legend>
+
+            <table border="1" cellpadding="3" cellspacing="0">
+
+                <tr>
+                    <th rowspan="2">#</th>
+                    <th rowspan="2">Organization</th>
+                    <th rowspan="2">Designation</th>
+                    <th colspan="2">Period</th>
+                    <th rowspan="2">Currently<br>Working?</th>
+                </tr>
+
+                <tr>
+                    <th>From</th>
+                    <th>To</th>
+                </tr>
+
+                <tr>
+                    <td>1</td>
+                    <td>
+                        <input type="text" name="org1" size="25">
+                    </td>
+                    <td>
+                        <input type="text" name="desig1" size="25">
+                    </td>
+                    <td>
+                        <input type="month" name="from1">
+                    </td>
+                    <td>
+                        <input type="month" name="to1">
+                    </td>
+                    <td align="center">
+                        <input type="checkbox" name="current1" value="yes">
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>2</td>
+                    <td>
+                        <input type="text" name="org2" size="25">
+                    </td>
+                    <td>
+                        <input type="text" name="desig2" size="25">
+                    </td>
+                    <td>
+                        <input type="month" name="from2">
+                    </td>
+                    <td>
+                        <input type="month" name="to2">
+                    </td>
+                    <td align="center">
+                        <input type="checkbox" name="current2" value="yes">
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>3</td>
+                    <td>
+                        <input type="text" name="org3" size="25">
+                    </td>
+                    <td>
+                        <input type="text" name="desig3" size="25">
+                    </td>
+                    <td>
+                        <input type="month" name="from3">
+                    </td>
+                    <td>
+                        <input type="month" name="to3">
+                    </td>
+                    <td align="center">
+                        <input type="checkbox" name="current3" value="yes">
+                    </td>
+                </tr>
+
+            </table>
+        </fieldset>
+
+
+        <!-- Step 3 -->
+        <fieldset>
+            <legend><b>Step 3 of 4: Skills and Expectations</b></legend>
+
+            <table>
+
+                <tr>
+                    <td valign="top">
+                        Technical Skills<br>
+                        <small>(hold Ctrl to select many)</small>
+                    </td>
+
+                    <td valign="top" rowspan="2">
+
+                        <p>
+                            Total Experience (years)
+                            <input type="number" name="experience_years" min="0" value="0" size="4">
+                        </p>
+
+                        <p>
+                            Expected Salary (NPR / month)
+                            <input type="number" name="expected_salary" min="0" placeholder="e.g. 45000">
+                        </p>
+
+                        <p>
+                            Earliest Joining Week
+                            <input type="week" name="joining_week">
+                        </p>
+
+                        <p>
+                            Work Mode:
+
+                            <input type="radio" name="work_mode" value="onsite">
+                            On-site
+
+                            <input type="radio" name="work_mode" value="hybrid" checked>
+                            Hybrid
+
+                            <input type="radio" name="work_mode" value="remote">
+                            Remote
+                        </p>
+
+                        <p>
+                            Willing to relocate?
+
+                            <select name="relocate">
+                                <option>Yes</option>
+                                <option>No</option>
+                                <option selected>Depends on offer</option>
+                            </select>
+                        </p>
+
+                    </td>
+                </tr>
+
+                <tr>
+                    <td valign="top">
+
+                        <select name="skills" multiple size="10">
+
+                            <optgroup label="Front-end">
+                                <option value="html5">HTML5</option>
+                                <option value="css3">CSS3</option>
+                                <option value="js">JavaScript</option>
+                            </optgroup>
+
+                            <optgroup label="Back-end">
+                                <option value="php">PHP</option>
+                                <option value="node">Node.js</option>
+                                <option value="python">Python</option>
+                            </optgroup>
+
+                            <optgroup label="Database">
+                                <option value="mysql">MySQL</option>
+                                <option value="postgres">PostgreSQL</option>
+                            </optgroup>
+
+                        </select>
+
+                    </td>
+                </tr>
+
+            </table>
+        </fieldset>
+
+
+        <!-- Step 4 -->
+        <fieldset>
+            <legend><b>Step 4 of 4: Documents</b></legend>
+
+            <table>
+
+                <tr>
+                    <td>
+                        CV (PDF only)<br>
+                        <input type="file" name="cv" accept=".pdf,application/pdf" required>
+                    </td>
+
+                    <td>
+                        Certificates (you may select several)<br>
+                        <input type="file" name="certificates" multiple>
+                    </td>
+                </tr>
+
+            </table>
+
+            <p>
+                Cover Letter<br>
+
+                <textarea name="cover_letter" rows="4" cols="70" minlength="100" maxlength="2000"
+                    placeholder="Tell us why you are a good fit (100 to 2000 characters)"></textarea>
+            </p>
+
+        </fieldset>
+
+
+        <!-- Buttons -->
+        <p align="center">
+            <input type="submit" value="Apply Now">
+
+            <input type="button" value="Save and Continue Later">
+
+            <input type="reset" value="Clear">
+        </p>
+
+    </form>
+
+</body>
+
+</html>
+```

@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Individual Account Opening & KYC Form</title>
+</head>
+
+<body>
+
+<form action="#" method="post" enctype="multipart/form-data">
+
+  <table border="1" cellpadding="5" cellspacing="0" width="100%">
+
+    <!-- Header and Photo -->
+    <tr>
+      <td colspan="4" align="center">
+        <h2>Himalayan Savings Bank Ltd.</h2>
+        <b>Individual Account Opening & KYC Form</b>
+      </td>
+
+      <td rowspan="5" align="center" valign="middle">
+        Affix recent<br>
+        passport-size<br>
+        photo<br><br>
+        <input type="file" name="photo" accept="image/*">
+      </td>
+    </tr>
+
+    <tr>
+      <td>Branch</td>
+      <td>
+        <select name="branch">
+          <option>Kathmandu Main</option>
+          <option>Lalitpur</option>
+          <option>Bhaktapur</option>
+          <option>Pokhara</option>
+          <option>Biratnagar</option>
+        </select>
+      </td>
+
+      <td>Date</td>
+      <td>
+        <input type="date" name="date">
+      </td>
+    </tr>
+
+    <tr>
+      <td>Account Type</td>
+      <td colspan="3">
+        <input type="radio" name="account_type" value="saving" checked>
+        Saving
+
+        <input type="radio" name="account_type" value="current">
+        Current
+
+        <input type="radio" name="account_type" value="fixed">
+        Fixed Deposit
+
+        <input type="radio" name="account_type" value="remittance">
+        Remittance
+      </td>
+    </tr>
+
+    <tr>
+      <td>Currency</td>
+      <td>
+        <input type="radio" name="currency" value="NPR" checked>
+        NPR
+
+        <input type="radio" name="currency" value="USD">
+        USD
+      </td>
+
+      <td>Initial Deposit</td>
+      <td>
+        <input type="number" name="initial_deposit"
+               min="500" placeholder="Min. 500">
+      </td>
+    </tr>
+
+    <tr>
+      <td>Customer Type</td>
+      <td colspan="3">
+        <input type="checkbox" name="customer_type" value="salaried">
+        Salaried
+
+        <input type="checkbox" name="customer_type" value="business">
+        Business
+
+        <input type="checkbox" name="customer_type" value="student">
+        Student
+
+        <input type="checkbox" name="customer_type" value="nrn">
+        Non-Resident Nepali
+      </td>
+    </tr>
+
+
+    <!-- A. Personal Information -->
+    <tr>
+      <th colspan="5" align="left">A. Personal Information</th>
+    </tr>
+
+    <tr>
+      <td>First Name</td>
+      <td>
+        <input type="text" name="first_name" required>
+      </td>
+
+      <td>Middle Name</td>
+      <td colspan="2">
+        <input type="text" name="middle_name">
+      </td>
+    </tr>
+
+    <tr>
+      <td>Last Name</td>
+      <td>
+        <input type="text" name="last_name" required>
+      </td>
+
+      <td>Date of Birth (AD)</td>
+      <td colspan="2">
+        <input type="date" name="dob" required>
+      </td>
+    </tr>
+
+    <tr>
+      <td>Marital Status</td>
+      <td>
+        <select name="marital_status">
+          <option>Unmarried</option>
+          <option>Married</option>
+          <option>Divorced</option>
+          <option>Widowed</option>
+        </select>
+      </td>
+
+      <td>Occupation</td>
+      <td colspan="2">
+        <input type="text" name="occupation">
+      </td>
+    </tr>
+
+    <tr>
+      <td>Annual Income</td>
+      <td colspan="4">
+        <select name="annual_income">
+          <option>Below 5 Lakh</option>
+          <option>5 - 10 Lakh</option>
+          <option>10 - 25 Lakh</option>
+          <option>Above 25 Lakh</option>
+        </select>
+      </td>
+    </tr>
+
+
+    <!-- B. Address -->
+    <tr>
+      <th colspan="5" align="left">B. Address</th>
+    </tr>
+
+    <tr>
+      <th>Type</th>
+      <th>Province</th>
+      <th>District</th>
+      <th>Municipality / Ward</th>
+      <th>Tole</th>
+    </tr>
+
+    <tr>
+      <td>Permanent</td>
+
+      <td>
+        <select name="perm_province">
+          <option>Koshi</option>
+          <option>Madhesh</option>
+          <option>Bagmati</option>
+          <option>Gandaki</option>
+          <option>Lumbini</option>
+          <option>Karnali</option>
+          <option>Sudurpashchim</option>
+        </select>
+      </td>
+
+      <td>
+        <input type="text" name="perm_district">
+      </td>
+
+      <td>
+        <input type="text" name="perm_municipality">
+      </td>
+
+      <td>
+        <input type="text" name="perm_tole">
+      </td>
+    </tr>
+
+    <tr>
+      <td>Temporary</td>
+
+      <td>
+        <select name="temp_province">
+          <option>Koshi</option>
+          <option>Madhesh</option>
+          <option>Bagmati</option>
+          <option>Gandaki</option>
+          <option>Lumbini</option>
+          <option>Karnali</option>
+          <option>Sudurpashchim</option>
+        </select>
+      </td>
+
+      <td>
+        <input type="text" name="temp_district">
+      </td>
+
+      <td>
+        <input type="text" name="temp_municipality">
+      </td>
+
+      <td>
+        <input type="text" name="temp_tole">
+      </td>
+    </tr>
+
+
+    <!-- C. Nominee Details -->
+    <tr>
+      <th colspan="5" align="left">C. Nominee Details</th>
+    </tr>
+
+    <tr>
+      <th>S.N.</th>
+      <th>Nominee Name</th>
+      <th>Relation</th>
+      <th>Share (%)</th>
+      <th>Citizenship No.</th>
+    </tr>
+
+    <tr>
+      <td align="center">1</td>
+
+      <td>
+        <input type="text" name="nominee1_name">
+      </td>
+
+      <td>
+        <select name="nominee1_relation">
+          <option>Father</option>
+          <option>Mother</option>
+          <option>Spouse</option>
+          <option>Son</option>
+          <option>Daughter</option>
+          <option>Sibling</option>
+        </select>
+      </td>
+
+      <td>
+        <input type="number" name="nominee1_share"
+               min="0" max="100" size="5">
+      </td>
+
+      <td>
+        <input type="text" name="nominee1_citizenship">
+      </td>
+    </tr>
+
+    <tr>
+      <td align="center">2</td>
+
+      <td>
+        <input type="text" name="nominee2_name">
+      </td>
+
+      <td>
+        <select name="nominee2_relation">
+          <option>Father</option>
+          <option>Mother</option>
+          <option>Spouse</option>
+          <option>Son</option>
+          <option>Daughter</option>
+          <option>Sibling</option>
+        </select>
+      </td>
+
+      <td>
+        <input type="number" name="nominee2_share"
+               min="0" max="100" size="5">
+      </td>
+
+      <td>
+        <input type="text" name="nominee2_citizenship">
+      </td>
+    </tr>
+
+
+    <!-- D. Services and Documents -->
+    <tr>
+      <th colspan="5" align="left">D. Services & Documents</th>
+    </tr>
+
+    <tr>
+      <td>Services Required</td>
+
+      <td colspan="4">
+        <input type="checkbox" name="services" value="debit_card">
+        Debit Card
+
+        <input type="checkbox" name="services"
+               value="mobile_banking" checked>
+        Mobile Banking
+
+        <input type="checkbox" name="services"
+               value="internet_banking">
+        Internet Banking
+
+        <input type="checkbox" name="services"
+               value="cheque_book">
+        Cheque Book
+
+        <input type="checkbox" name="services"
+               value="sms_alert">
+        SMS Alert
+      </td>
+    </tr>
+
+    <tr>
+      <td rowspan="2">Upload Documents</td>
+
+      <td>Citizenship (front & back)</td>
+
+      <td colspan="3">
+        <input type="file" name="citizenship_docs" multiple>
+      </td>
+    </tr>
+
+    <tr>
+      <td>Specimen Signature</td>
+
+      <td colspan="3">
+        <input type="file" name="signature">
+      </td>
+    </tr>
+
+
+    <!-- Declaration -->
+    <tr>
+      <td colspan="5">
+        <input type="checkbox"
+               name="declaration"
+               value="yes"
+               required>
+
+        I declare that the information above is true and
+        I accept the bank's terms and conditions.
+      </td>
+    </tr>
+
+
+    <!-- Buttons -->
+    <tr>
+      <td colspan="5" align="center">
+        <input type="submit" value="Submit Application">
+        <input type="reset" value="Reset">
+      </td>
+    </tr>
+
+  </table>
+
+</form>
+
+</body>
+</html>
+```

@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Online Room Reservation</title>
+</head>
+
+<body>
+
+    <h2 align="center">Phewa Lakeside Resort, Pokhara</h2>
+    <h3 align="center">Online Room Reservation</h3>
+
+    <form action="#" method="post">
+
+        ```
+        <table width="100%">
+
+            <tr>
+
+                <td valign="top" width="50%">
+
+                    <fieldset>
+                        <legend><b>1. Stay Details</b></legend>
+
+                        <table>
+
+                            <tr>
+                                <td>Check-in</td>
+                                <td>
+                                    <input type="date" id="cin" name="checkin" required>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>Check-out</td>
+                                <td>
+                                    <input type="date" id="cout" name="checkout" required>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>Arrival Time</td>
+                                <td>
+                                    <input type="time" id="arr" name="arrival_time" value="14:00">
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>Adults</td>
+                                <td>
+                                    <input type="number" id="adults" name="adults" min="1" value="2" size="3">
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>Children (below 12)</td>
+                                <td>
+                                    <input type="number" id="children" name="children" min="0" value="0" size="3">
+                                </td>
+                            </tr>
+
+                        </table>
+
+                    </fieldset>
+
+                </td>
+
+
+                <td valign="top" width="50%">
+
+                    <fieldset>
+                        <legend><b>2. Guest Details</b></legend>
+
+                        <table>
+
+                            <tr>
+                                <td>Lead Guest</td>
+                                <td>
+                                    <input type="text" id="guest" name="lead_guest" required>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>Nationality</td>
+                                <td>
+                                    <input type="text" id="nat" name="nationality">
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>Email</td>
+                                <td>
+                                    <input type="email" id="gemail" name="email" required>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>Passport / Citizenship No.</td>
+                                <td>
+                                    <input type="text" id="pass" name="id_number">
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>Promo Code</td>
+                                <td>
+                                    <input type="text" id="promo" name="promo" maxlength="8" size="8"
+                                        placeholder="8 chars">
+                                </td>
+                            </tr>
+
+                        </table>
+
+                    </fieldset>
+
+                </td>
+
+            </tr>
+
+        </table>
+
+
+        <fieldset>
+
+            <legend><b>3. Choose a Room</b></legend>
+
+            <table border="1" cellpadding="5" cellspacing="0" width="100%">
+
+                <tr>
+                    <th>Select</th>
+                    <th>Room Type</th>
+                    <th>View</th>
+                    <th>Max Guests</th>
+                    <th>Rate / Night (NPR)</th>
+                    <th>Rooms</th>
+                </tr>
+
+
+                <tr>
+
+                    <td align="center">
+                        <input type="radio" name="room" value="standard">
+                    </td>
+
+                    <td>Standard Double</td>
+                    <td>Garden</td>
+
+                    <td align="center">2</td>
+
+                    <td align="right">4,500</td>
+
+                    <td align="center">
+
+                        <select name="rooms_standard">
+                            <option>1</option>
+                            <option>2</option>
+                            <option>3</option>
+                            <option>4</option>
+                            <option>5</option>
+                        </select>
+
+                    </td>
+
+                </tr>
+
+
+                <tr>
+
+                    <td align="center">
+                        <input type="radio" name="room" value="deluxe">
+                    </td>
+
+                    <td>Deluxe Lake View</td>
+                    <td>Phewa Lake</td>
+
+                    <td align="center">3</td>
+
+                    <td align="right">7,800</td>
+
+                    <td align="center">
+
+                        <select name="rooms_deluxe">
+                            <option>1</option>
+                            <option>2</option>
+                            <option>3</option>
+                            <option>4</option>
+                            <option>5</option>
+                        </select>
+
+                    </td>
+
+                </tr>
+
+
+                <tr>
+
+                    <td align="center">
+                        <input type="radio" name="room" value="suite">
+                    </td>
+
+                    <td>Family Suite</td>
+                    <td>Annapurna Range</td>
+
+                    <td align="center">4</td>
+
+                    <td align="right">12,000</td>
+
+                    <td align="center">
+
+                        <select name="rooms_suite">
+                            <option>1</option>
+                            <option>2</option>
+                            <option>3</option>
+                            <option>4</option>
+                            <option>5</option>
+                        </select>
+
+                    </td>
+
+                </tr>
+
+
+                <tr>
+                    <td colspan="6" align="center">
+                        <i>Rates include 13% VAT and 10% service charge.</i>
+                    </td>
+                </tr>
+
+            </table>
+
+        </fieldset>
+
+
+        <fieldset>
+
+            <legend><b>4. Extras</b></legend>
+
+            <input type="checkbox" id="e1" name="extras" value="breakfast" checked>
+            Breakfast
+
+            <input type="checkbox" id="e2" name="extras" value="pickup">
+            Airport Pickup
+
+            <input type="checkbox" id="e3" name="extras" value="boating">
+            Boating Package
+
+            <input type="checkbox" id="e4" name="extras" value="paragliding">
+            Paragliding Booking
+
+
+            <p>
+                Special Requests:
+                <br>
+
+                <textarea id="req" name="special_requests" rows="2" cols="70"
+                    placeholder="Extra bed, early check-in, dietary needs..."></textarea>
+            </p>
+
+
+            <p>
+
+                Payment Method:
+
+                <input type="radio" id="p1" name="payment" value="hotel" checked>
+                Pay at Hotel
+
+                <input type="radio" id="p2" name="payment" value="wallet">
+                Digital Wallet
+
+                <input type="radio" id="p3" name="payment" value="card">
+                Card
+
+            </p>
+
+        </fieldset>
+
+
+        <p align="center">
+
+            <button type="submit">
+                Confirm Booking
+            </button>
+
+            <button type="reset">
+                Start Over
+            </button>
+
+            <button type="button">
+                Check Availability
+            </button>
+
+        </p>
+        ```
+
+    </form>
+
+</body>
+
+</html>

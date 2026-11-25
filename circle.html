@@ -1,0 +1,1396 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Understanding the Area of a Circle: Interactive Visual Guide</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Outfit', 'sans-serif'],
+                        mono: ['Space Grotesk', 'monospace'],
+                    },
+                    colors: {
+                        slate: {
+                            850: '#0f172a',
+                            950: '#020617',
+                        },
+                        math: {
+                            radius: '#ef4444',
+                            pi: '#a855f7',
+                            area: '#10b981',
+                            circ: '#3b82f6',
+                            accent: '#f59e0b'
+                        }
+                    },
+                    animation: {
+                        'pulse-glow': 'pulseGlow 3s infinite ease-in-out',
+                        'float': 'float 4s infinite ease-in-out',
+                    },
+                    keyframes: {
+                        pulseGlow: {
+                            '0%, 100%': { opacity: '0.4' },
+                            '50%': { opacity: '0.8' },
+                        },
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0px)' },
+                            '50%': { transform: 'translateY(-6px)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #030712;
+            color: #f8fafc;
+            overflow-x: hidden;
+        }
+        canvas {
+            touch-action: none;
+        }
+        .glass-panel {
+            background: rgba(15, 23, 42, 0.75);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .glass-panel-hover {
+            transition: all 0.3s ease;
+        }
+        .glass-panel-hover:hover {
+            border-color: rgba(56, 189, 248, 0.3);
+            box-shadow: 0 10px 30px -10px rgba(14, 165, 233, 0.25);
+        }
+        .tab-btn {
+            position: relative;
+            transition: all 0.25s ease;
+        }
+        .tab-btn.active {
+            color: #38bdf8;
+            background-color: rgba(56, 189, 248, 0.12);
+        }
+        .tab-btn.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #38bdf8, #818cf8);
+            border-radius: 3px 3px 0 0;
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            height: 6px;
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #090d16;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #1e293b;
+            border-radius: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #334155;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col font-sans antialiased selection:bg-sky-500 selection:text-white custom-scrollbar">
+
+    <!-- Header Section -->
+    <header class="border-b border-slate-800/80 bg-slate-950/80 sticky top-0 z-50 backdrop-blur-xl">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div class="flex items-center space-x-3.5">
+                <div class="w-11 h-11 rounded-2xl bg-gradient-to-tr from-sky-500 via-indigo-500 to-purple-500 flex items-center justify-center text-white font-bold text-2xl shadow-lg shadow-sky-500/20">
+                    <span class="font-mono select-none">π</span>
+                </div>
+                <div>
+                    <h1 class="text-xl font-extrabold bg-gradient-to-r from-white via-sky-100 to-sky-400 bg-clip-text text-transparent tracking-tight">
+                        Area of a Circle: Interactive Visualizer
+                    </h1>
+                    <p class="text-xs text-slate-400 flex items-center gap-2">
+                        <span>Mastering <strong class="text-emerald-400 font-mono font-semibold">Area = πr²</strong> through dynamic proofs & animations</span>
+                    </p>
+                </div>
+            </div>
+
+            <!-- Global Formula Badge -->
+            <div class="flex items-center gap-2.5 bg-slate-900/90 px-4 py-2 rounded-2xl border border-slate-800 shadow-inner">
+                <span class="text-xs text-slate-400 font-medium">Core Formula:</span>
+                <div class="font-mono text-sm flex items-center gap-1 font-bold">
+                    <span class="text-emerald-400">Area</span>
+                    <span class="text-slate-400">=</span>
+                    <span class="text-purple-400">π</span>
+                    <span class="text-slate-400">×</span>
+                    <span class="text-red-400">r²</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Navigation Tabs -->
+        <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex overflow-x-auto no-scrollbar border-t border-slate-800/60 custom-scrollbar">
+            <button onclick="switchTab('sectors')" id="tab-sectors" class="tab-btn active px-4 py-3 text-xs sm:text-sm font-semibold text-slate-300 hover:text-white flex items-center gap-2 whitespace-nowrap">
+                <i class="fa-solid fa-chart-pie text-sky-400"></i>
+                1. Sector Morph
+            </button>
+            <button onclick="switchTab('rings')" id="tab-rings" class="tab-btn px-4 py-3 text-xs sm:text-sm font-semibold text-slate-300 hover:text-white flex items-center gap-2 whitespace-nowrap">
+                <i class="fa-solid fa-layer-group text-purple-400"></i>
+                2. Unrolling Rings
+            </button>
+            <button onclick="switchTab('square')" id="tab-square" class="tab-btn px-4 py-3 text-xs sm:text-sm font-semibold text-slate-300 hover:text-white flex items-center gap-2 whitespace-nowrap">
+                <i class="fa-solid fa-shapes text-amber-400"></i>
+                3. The 4-Square Intuition
+            </button>
+            <button onclick="switchTab('archimedes')" id="tab-archimedes" class="tab-btn px-4 py-3 text-xs sm:text-sm font-semibold text-slate-300 hover:text-white flex items-center gap-2 whitespace-nowrap">
+                <i class="fa-solid fa-draw-polygon text-indigo-400"></i>
+                4. Polygon Squeeze
+            </button>
+            <button onclick="switchTab('explorer')" id="tab-explorer" class="tab-btn px-4 py-3 text-xs sm:text-sm font-semibold text-slate-300 hover:text-white flex items-center gap-2 whitespace-nowrap">
+                <i class="fa-solid fa-sliders text-emerald-400"></i>
+                5. Radius Playground
+            </button>
+            <button onclick="switchTab('quiz')" id="tab-quiz" class="tab-btn px-4 py-3 text-xs sm:text-sm font-semibold text-slate-300 hover:text-white flex items-center gap-2 whitespace-nowrap">
+                <i class="fa-solid fa-graduation-cap text-pink-400"></i>
+                6. Practice Challenge
+            </button>
+        </nav>
+    </header>
+
+    <!-- Main Content Container -->
+    <main class="flex-1 max-w-7xl w-full mx-auto p-4 sm:p-6 lg:p-8 space-y-6">
+
+        <!-- TAB 1: Sector Rearrangement -->
+        <section id="content-sectors" class="tab-content grid grid-cols-1 lg:grid-cols-12 gap-6">
+            <!-- Left Controls & Explanation -->
+            <div class="lg:col-span-4 space-y-5">
+                <div class="glass-panel p-5 rounded-2xl space-y-4">
+                    <div class="flex items-center justify-between">
+                        <h2 class="text-lg font-bold text-white flex items-center gap-2">
+                            <i class="fa-solid fa-scissors text-sky-400"></i>
+                            Circle to Rectangle
+                        </h2>
+                        <span class="text-[11px] bg-sky-500/20 text-sky-300 font-mono px-2.5 py-1 rounded-full border border-sky-500/30">Proof Method 1</span>
+                    </div>
+
+                    <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
+                        Slicing a circle into equal sectors and interlocking top and bottom slices converts the circle into a <strong>parallelogram</strong>. As the number of slices increases to infinity, the shape becomes a perfect <strong>rectangle</strong>!
+                    </p>
+
+                    <!-- Interactive Controls -->
+                    <div class="space-y-4 pt-3 border-t border-slate-800">
+                        <div>
+                            <div class="flex justify-between text-xs font-mono text-slate-300 mb-1.5">
+                                <span>Number of Slices (N):</span>
+                                <span id="sector-count-label" class="text-sky-400 font-bold">16</span>
+                            </div>
+                            <input type="range" id="sector-slider" min="4" max="64" step="2" value="16" class="w-full accent-sky-500 h-2 bg-slate-800 rounded-lg cursor-pointer">
+                        </div>
+
+                        <div>
+                            <div class="flex justify-between text-xs font-mono text-slate-300 mb-1.5">
+                                <span>Rearrange Progress:</span>
+                                <span id="rearrange-percent-label" class="text-emerald-400 font-bold">0%</span>
+                            </div>
+                            <input type="range" id="rearrange-slider" min="0" max="100" value="0" class="w-full accent-emerald-500 h-2 bg-slate-800 rounded-lg cursor-pointer">
+                        </div>
+
+                        <!-- Action Buttons -->
+                        <div class="flex gap-2">
+                            <button id="btn-animate-sector" class="flex-1 bg-sky-600 hover:bg-sky-500 text-white py-2.5 px-4 rounded-xl text-xs sm:text-sm font-semibold transition-all flex items-center justify-center gap-2 shadow-lg shadow-sky-600/30">
+                                <i class="fa-solid fa-play"></i> Animate Morph
+                            </button>
+                            <button id="btn-reset-sector" class="bg-slate-800 hover:bg-slate-700 text-slate-300 py-2.5 px-3.5 rounded-xl text-xs sm:text-sm transition-all border border-slate-700">
+                                <i class="fa-solid fa-rotate-left"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Mathematical Breakdown Card -->
+                <div class="glass-panel p-5 rounded-2xl border-l-4 border-l-sky-500 space-y-3">
+                    <h3 class="font-bold text-slate-200 text-xs uppercase tracking-wider font-mono">The Mathematical Proof</h3>
+                    <ul class="text-xs space-y-2.5 text-slate-300 font-mono">
+                        <li class="flex justify-between items-center bg-slate-900/80 p-2.5 rounded-xl border border-slate-800">
+                            <span>Full Circumference (C):</span>
+                            <span class="text-purple-300 font-bold">2πr</span>
+                        </li>
+                        <li class="flex justify-between items-center bg-slate-900/80 p-2.5 rounded-xl border border-slate-800">
+                            <span>Rectangle Base (half C):</span>
+                            <span class="text-sky-300 font-bold">b = πr</span>
+                        </li>
+                        <li class="flex justify-between items-center bg-slate-900/80 p-2.5 rounded-xl border border-slate-800">
+                            <span>Rectangle Height:</span>
+                            <span class="text-red-400 font-bold">h = r</span>
+                        </li>
+                        <li class="p-3 rounded-xl bg-emerald-950/40 border border-emerald-500/30 text-emerald-300 font-semibold text-center text-xs">
+                            Area = Base × Height = (πr) × r = <span class="text-white font-bold underline decoration-emerald-400 decoration-2">πr²</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Right Interactive Canvas Display -->
+            <div class="lg:col-span-8 flex flex-col">
+                <div class="glass-panel p-4 rounded-2xl flex-1 flex flex-col justify-between relative min-h-[440px] glass-panel-hover">
+                    <div class="flex flex-wrap justify-between items-center gap-2 mb-2 z-10">
+                        <span class="text-xs font-mono text-slate-400 bg-slate-900/90 px-3 py-1 rounded-full border border-slate-800 flex items-center gap-2">
+                            <i class="fa-solid fa-eye text-sky-400"></i> Interactive Canvas
+                        </span>
+                        <div class="flex items-center gap-4 text-xs font-mono">
+                            <span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-full bg-sky-500 inline-block"></span> Top Slices (πr)</span>
+                            <span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-full bg-indigo-500 inline-block"></span> Bottom Slices (πr)</span>
+                            <span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-full bg-red-500 inline-block"></span> Radius (r)</span>
+                        </div>
+                    </div>
+
+                    <div class="relative flex-1 w-full flex items-center justify-center overflow-hidden rounded-xl bg-slate-950/90 border border-slate-800">
+                        <canvas id="sectorCanvas" class="w-full h-full block"></canvas>
+                    </div>
+
+                    <div id="sector-caption" class="mt-3 text-center text-xs text-slate-400 bg-slate-900/80 p-2.5 rounded-xl border border-slate-800 font-mono">
+                        Drag the progress slider or click "Animate Morph" to transform circle slices into a rectangle of base πr and height r.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 2: Concentric Rings (Onion Method) -->
+        <section id="content-rings" class="tab-content hidden grid grid-cols-1 lg:grid-cols-12 gap-6">
+            <div class="lg:col-span-4 space-y-5">
+                <div class="glass-panel p-5 rounded-2xl space-y-4">
+                    <div class="flex items-center justify-between">
+                        <h2 class="text-lg font-bold text-white flex items-center gap-2">
+                            <i class="fa-solid fa-layer-group text-purple-400"></i>
+                            Unrolling Nested Rings
+                        </h2>
+                        <span class="text-[11px] bg-purple-500/20 text-purple-300 font-mono px-2.5 py-1 rounded-full border border-purple-500/30">Proof Method 2</span>
+                    </div>
+
+                    <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
+                        Imagine a circle made of concentric rings (like onion layers). Cutting along a radius and unrolling all rings horizontally stacks them to form a right-angled <strong>triangle</strong>!
+                    </p>
+
+                    <div class="space-y-4 pt-3 border-t border-slate-800">
+                        <div>
+                            <div class="flex justify-between text-xs font-mono text-slate-300 mb-1.5">
+                                <span>Number of Rings:</span>
+                                <span id="ring-count-label" class="text-purple-400 font-bold">12</span>
+                            </div>
+                            <input type="range" id="ring-slider" min="6" max="32" value="12" class="w-full accent-purple-500 h-2 bg-slate-800 rounded-lg cursor-pointer">
+                        </div>
+
+                        <div>
+                            <div class="flex justify-between text-xs font-mono text-slate-300 mb-1.5">
+                                <span>Unrolling Progress:</span>
+                                <span id="ring-unroll-label" class="text-purple-300 font-bold">0%</span>
+                            </div>
+                            <input type="range" id="ring-progress-slider" min="0" max="100" value="0" class="w-full accent-purple-400 h-2 bg-slate-800 rounded-lg cursor-pointer">
+                        </div>
+
+                        <div class="flex gap-2">
+                            <button id="btn-animate-ring" class="flex-1 bg-purple-600 hover:bg-purple-500 text-white py-2.5 px-4 rounded-xl text-xs sm:text-sm font-semibold transition-all flex items-center justify-center gap-2 shadow-lg shadow-purple-600/30">
+                                <i class="fa-solid fa-play"></i> Unroll Rings
+                            </button>
+                            <button id="btn-reset-ring" class="bg-slate-800 hover:bg-slate-700 text-slate-300 py-2.5 px-3.5 rounded-xl text-xs sm:text-sm transition-all border border-slate-700">
+                                <i class="fa-solid fa-rotate-left"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="glass-panel p-5 rounded-2xl border-l-4 border-l-purple-500 space-y-3">
+                    <h3 class="font-bold text-slate-200 text-xs uppercase tracking-wider font-mono">Triangle Proof Logic</h3>
+                    <ul class="text-xs space-y-2.5 text-slate-300 font-mono">
+                        <li class="flex justify-between items-center bg-slate-900/80 p-2.5 rounded-xl border border-slate-800">
+                            <span>Triangle Base (Outer Ring):</span>
+                            <span class="text-purple-300 font-bold">2πr</span>
+                        </li>
+                        <li class="flex justify-between items-center bg-slate-900/80 p-2.5 rounded-xl border border-slate-800">
+                            <span>Triangle Height (Radius):</span>
+                            <span class="text-red-400 font-bold">r</span>
+                        </li>
+                        <li class="p-3 rounded-xl bg-purple-950/40 border border-purple-500/30 text-purple-300 font-semibold text-center text-xs">
+                            Area = ½ × Base × Height = ½ × (2πr) × r = <span class="text-white font-bold underline decoration-purple-400 decoration-2">πr²</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Canvas for Rings -->
+            <div class="lg:col-span-8 flex flex-col">
+                <div class="glass-panel p-4 rounded-2xl flex-1 flex flex-col justify-between relative min-h-[440px] glass-panel-hover">
+                    <div class="flex justify-between items-center mb-2 z-10">
+                        <span class="text-xs font-mono text-slate-400 bg-slate-900/90 px-3 py-1 rounded-full border border-slate-800 flex items-center gap-2">
+                            <i class="fa-solid fa-eye text-purple-400"></i> Concentric Rings Canvas
+                        </span>
+                    </div>
+
+                    <div class="relative flex-1 w-full flex items-center justify-center overflow-hidden rounded-xl bg-slate-950/90 border border-slate-800">
+                        <canvas id="ringCanvas" class="w-full h-full block"></canvas>
+                    </div>
+
+                    <div class="mt-3 text-center text-xs text-slate-400 bg-slate-900/80 p-2.5 rounded-xl border border-slate-800 font-mono">
+                        The longest outer ring unrolls to length 2πr at the bottom base, while smaller inner rings form the triangle shape of height r.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 3: 4-Square Comparison -->
+        <section id="content-square" class="tab-content hidden grid grid-cols-1 lg:grid-cols-12 gap-6">
+            <div class="lg:col-span-4 space-y-5">
+                <div class="glass-panel p-5 rounded-2xl space-y-4">
+                    <div class="flex items-center justify-between">
+                        <h2 class="text-lg font-bold text-white flex items-center gap-2">
+                            <i class="fa-solid fa-border-all text-amber-400"></i>
+                            Why ~3.14 Squares?
+                        </h2>
+                        <span class="text-[11px] bg-amber-500/20 text-amber-300 font-mono px-2.5 py-1 rounded-full border border-amber-500/30">Intuition</span>
+                    </div>
+
+                    <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
+                        What does <strong class="text-emerald-400 font-mono">r²</strong> actually mean? A square with side length <strong class="text-red-400 font-mono">r</strong> has an area of <strong class="text-amber-400 font-mono">r²</strong>. Four of these squares enclose the entire circle with a bounding box area of <strong class="text-amber-300 font-mono">4r²</strong>.
+                    </p>
+                    <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
+                        Trimming off the 4 corner overflow regions leaves a circle area of exactly <strong>π ≈ 3.14159</strong> full <span class="text-amber-400 font-mono font-semibold">r²</span> squares!
+                    </p>
+
+                    <div class="p-4 bg-slate-900/90 rounded-2xl border border-slate-800 space-y-3 font-mono text-xs">
+                        <div class="flex justify-between items-center text-slate-300">
+                            <span>Bounding Box (4 Squares):</span>
+                            <span class="text-amber-400 font-bold text-sm">4.00 r²</span>
+                        </div>
+                        <div class="w-full bg-slate-800 h-3 rounded-full overflow-hidden flex">
+                            <div class="bg-emerald-500 h-full" style="width: 78.54%"></div>
+                            <div class="bg-amber-500/40 h-full" style="width: 21.46%"></div>
+                        </div>
+                        <div class="flex justify-between items-center text-slate-300">
+                            <span>Circle Area (π Squares):</span>
+                            <span class="text-emerald-400 font-bold text-sm">≈ 3.14 r²</span>
+                        </div>
+                        <div class="text-slate-400 text-[11px] pt-1 flex justify-between border-t border-slate-800">
+                            <span>Circle / Bounding Box Ratio:</span>
+                            <span class="text-sky-300 font-bold">π / 4 ≈ 78.54%</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="glass-panel p-5 rounded-2xl border-l-4 border-l-amber-500 space-y-2">
+                    <h3 class="font-bold text-slate-200 text-xs uppercase tracking-wider font-mono">Key Insight</h3>
+                    <p class="text-xs text-slate-300 leading-relaxed">
+                        <span class="text-purple-400 font-bold font-mono">π</span> is fundamentally the ratio of a circle's area to the area of a square constructed on its radius (<span class="text-red-400 font-mono font-bold">r × r</span>).
+                    </p>
+                </div>
+            </div>
+
+            <!-- Canvas for 4 Square comparison -->
+            <div class="lg:col-span-8 flex flex-col">
+                <div class="glass-panel p-4 rounded-2xl flex-1 flex flex-col justify-between relative min-h-[440px] glass-panel-hover">
+                    <div class="flex justify-between items-center mb-2 z-10">
+                        <span class="text-xs font-mono text-slate-400 bg-slate-900/90 px-3 py-1 rounded-full border border-slate-800 flex items-center gap-2">
+                            <i class="fa-solid fa-shapes text-amber-400"></i> Circle in 4 r² Squares Canvas
+                        </span>
+                        <div class="flex items-center gap-3 text-xs font-mono">
+                            <label class="cursor-pointer flex items-center gap-2 text-slate-300 hover:text-white">
+                                <input type="checkbox" id="chk-show-grid" checked class="accent-amber-500 rounded cursor-pointer">
+                                <span>Show r² Sub-grid</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="relative flex-1 w-full flex items-center justify-center overflow-hidden rounded-xl bg-slate-950/90 border border-slate-800">
+                        <canvas id="squareCanvas" class="w-full h-full block"></canvas>
+                    </div>
+
+                    <div class="mt-3 text-center text-xs text-slate-400 bg-slate-900/80 p-2.5 rounded-xl border border-slate-800 font-mono">
+                        Observe the 4 corner areas outside the green circle. Cutting away these corners reduces the area from 4r² down to 3.14159r².
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 4: Polygon Squeeze (Archimedes Method) -->
+        <section id="content-archimedes" class="tab-content hidden grid grid-cols-1 lg:grid-cols-12 gap-6">
+            <div class="lg:col-span-4 space-y-5">
+                <div class="glass-panel p-5 rounded-2xl space-y-4">
+                    <div class="flex items-center justify-between">
+                        <h2 class="text-lg font-bold text-white flex items-center gap-2">
+                            <i class="fa-solid fa-draw-polygon text-indigo-400"></i>
+                            Polygon Approximation
+                        </h2>
+                        <span class="text-[11px] bg-indigo-500/20 text-indigo-300 font-mono px-2.5 py-1 rounded-full border border-indigo-500/30">Archimedes</span>
+                    </div>
+
+                    <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
+                        Archimedes approximated circle area by squeezing the circle between an <strong>inscribed polygon</strong> (inside) and a <strong>circumscribed polygon</strong> (outside).
+                    </p>
+
+                    <div class="space-y-4 pt-3 border-t border-slate-800">
+                        <div>
+                            <div class="flex justify-between text-xs font-mono text-slate-300 mb-1.5">
+                                <span>Polygon Sides (N):</span>
+                                <span id="poly-sides-label" class="text-indigo-400 font-bold">6</span>
+                            </div>
+                            <input type="range" id="poly-slider" min="3" max="48" step="1" value="6" class="w-full accent-indigo-500 h-2 bg-slate-800 rounded-lg cursor-pointer">
+                        </div>
+
+                        <!-- Live Squeeze Data -->
+                        <div class="p-3 bg-slate-900/90 rounded-xl border border-slate-800 space-y-2 font-mono text-xs">
+                            <div class="flex justify-between items-center">
+                                <span class="text-sky-300">Inscribed Area:</span>
+                                <span id="poly-inscribed-val" class="font-bold text-sky-400">2.598 r²</span>
+                            </div>
+                            <div class="flex justify-between items-center border-t border-b border-slate-800 py-1.5">
+                                <span class="text-emerald-400 font-semibold">Exact Circle Area:</span>
+                                <span class="font-bold text-emerald-300">3.142 r²</span>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <span class="text-pink-300">Circumscribed Area:</span>
+                                <span id="poly-circum-val" class="font-bold text-pink-400">3.464 r²</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="glass-panel p-5 rounded-2xl border-l-4 border-l-indigo-500 space-y-2">
+                    <h3 class="font-bold text-slate-200 text-xs uppercase tracking-wider font-mono">Limit Principle</h3>
+                    <p class="text-xs text-slate-300 leading-relaxed">
+                        As the number of sides $N \to \infty$, both the inner and outer polygon areas converge precisely to <strong class="text-purple-300 font-mono">πr²</strong>!
+                    </p>
+                </div>
+            </div>
+
+            <div class="lg:col-span-8 flex flex-col">
+                <div class="glass-panel p-4 rounded-2xl flex-1 flex flex-col justify-between relative min-h-[440px] glass-panel-hover">
+                    <div class="flex justify-between items-center mb-2 z-10">
+                        <span class="text-xs font-mono text-slate-400 bg-slate-900/90 px-3 py-1 rounded-full border border-slate-800 flex items-center gap-2">
+                            <i class="fa-solid fa-eye text-indigo-400"></i> Inscribed & Circumscribed Polygons Canvas
+                        </span>
+                    </div>
+
+                    <div class="relative flex-1 w-full flex items-center justify-center overflow-hidden rounded-xl bg-slate-950/90 border border-slate-800">
+                        <canvas id="archimedesCanvas" class="w-full h-full block"></canvas>
+                    </div>
+
+                    <div class="mt-3 text-center text-xs text-slate-400 bg-slate-900/80 p-2.5 rounded-xl border border-slate-800 font-mono">
+                        Increase sides $N$ to watch the blue inner polygon and pink outer polygon trap the circle area tighter and tighter.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 5: Radius Playground -->
+        <section id="content-explorer" class="tab-content hidden grid grid-cols-1 lg:grid-cols-12 gap-6">
+            <div class="lg:col-span-5 space-y-5">
+                <div class="glass-panel p-5 rounded-2xl space-y-5">
+                    <div class="flex items-center justify-between">
+                        <h2 class="text-lg font-bold text-white flex items-center gap-2">
+                            <i class="fa-solid fa-sliders text-emerald-400"></i>
+                            Live Radius Calculator
+                        </h2>
+                        <span class="text-[11px] bg-emerald-500/20 text-emerald-300 font-mono px-2.5 py-1 rounded-full border border-emerald-500/30">Interactive</span>
+                    </div>
+
+                    <!-- Radius Slider Input -->
+                    <div class="space-y-2">
+                        <div class="flex justify-between items-center">
+                            <label class="text-xs font-bold text-slate-200 uppercase tracking-wider font-mono">Adjust Radius (r):</label>
+                            <span id="playground-r-val" class="text-lg font-mono font-bold text-red-400 bg-slate-900 px-3 py-1 rounded-xl border border-slate-800">5.0 cm</span>
+                        </div>
+                        <input type="range" id="playground-slider" min="1" max="15" step="0.5" value="5" class="w-full accent-emerald-500 h-2bg-slate-800 rounded-lg cursor-pointer">
+                    </div>
+
+                    <!-- Step-by-Step Live Math Cards -->
+                    <div class="space-y-3 font-mono text-xs">
+                        <div class="bg-slate-900/90 p-3 rounded-xl border border-slate-800 flex justify-between items-center">
+                            <span class="text-slate-400">1. Square the radius (r²):</span>
+                            <span id="step-r-sq" class="text-amber-400 font-bold text-sm">5² = 25.00 cm²</span>
+                        </div>
+                        <div class="bg-slate-900/90 p-3 rounded-xl border border-slate-800 flex justify-between items-center">
+                            <span class="text-slate-400">2. Multiply by π (≈ 3.14159):</span>
+                            <span id="step-pi-calc" class="text-purple-300 font-bold text-sm">3.14159 × 25.00</span>
+                        </div>
+                        <div class="bg-emerald-950/60 p-4 rounded-xl border border-emerald-500/40 flex justify-between items-center shadow-lg">
+                            <div>
+                                <span class="block text-emerald-400 font-bold text-xs uppercase tracking-wider">Total Area (A):</span>
+                                <span class="text-[11px] text-slate-400">Exact: <span id="step-exact-area" class="font-bold text-slate-200">25π</span></span>
+                            </div>
+                            <span id="step-final-area" class="text-2xl font-bold text-white">78.54 <span class="text-xs text-emerald-300">cm²</span></span>
+                        </div>
+                    </div>
+
+                    <!-- Circumference vs Area contrast box -->
+                    <div class="grid grid-cols-2 gap-3 pt-1 text-xs font-mono">
+                        <div class="p-3 bg-slate-900/80 rounded-xl border border-slate-800">
+                            <span class="text-slate-400 block mb-1">Circumference (2πr)</span>
+                            <span id="playground-circ" class="text-sky-400 font-bold text-sm">31.42 cm</span>
+                        </div>
+                        <div class="p-3 bg-slate-900/80 rounded-xl border border-slate-800">
+                            <span class="text-slate-400 block mb-1">Diameter (2r)</span>
+                            <span id="playground-diam" class="text-indigo-400 font-bold text-sm">10.00 cm</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Canvas for Interactive Playground -->
+            <div class="lg:col-span-7 flex flex-col">
+                <div class="glass-panel p-4 rounded-2xl flex-1 flex flex-col justify-between relative min-h-[440px] glass-panel-hover">
+                    <div class="flex justify-between items-center mb-2 z-10">
+                        <span class="text-xs font-mono text-slate-400 bg-slate-900/90 px-3 py-1 rounded-full border border-slate-800 flex items-center gap-2">
+                            <i class="fa-solid fa-vector-square text-emerald-400"></i> Dynamic Scaled Circle Canvas
+                        </span>
+                    </div>
+
+                    <div class="relative flex-1 w-full flex items-center justify-center overflow-hidden rounded-xl bg-slate-950/90 border border-slate-800">
+                        <canvas id="explorerCanvas" class="w-full h-full block"></canvas>
+                    </div>
+
+                    <div class="mt-3 text-center text-xs text-slate-400 bg-slate-900/80 p-2.5 rounded-xl border border-slate-800 font-mono">
+                        Notice how doubling radius quadruples the area ($2^2 = 4$). Area scales quadratically with radius!
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 6: Quiz & Practice Challenge -->
+        <section id="content-quiz" class="tab-content hidden max-w-4xl mx-auto space-y-6">
+            <div class="glass-panel p-6 rounded-2xl space-y-6">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-800 pb-4">
+                    <div>
+                        <h2 class="text-xl font-bold text-white flex items-center gap-2">
+                            <i class="fa-solid fa-graduation-cap text-pink-400"></i>
+                            Interactive Mastery Quiz
+                        </h2>
+                        <p class="text-xs text-slate-400">Test your mastery of area formulas, proofs, and real-world applications.</p>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <div class="bg-slate-900 px-4 py-2 rounded-xl border border-slate-800 text-center">
+                            <span class="text-[10px] text-slate-400 block uppercase font-mono">Score</span>
+                            <span id="quiz-score" class="text-lg font-bold font-mono text-emerald-400">0 / 0</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quiz Question Container -->
+                <div id="quiz-card" class="space-y-5">
+                    <div class="flex items-center justify-between text-xs font-mono text-slate-400">
+                        <span id="quiz-question-number" class="bg-slate-800 px-3 py-1 rounded-full border border-slate-700 text-pink-300">Question 1 of 5</span>
+                        <span id="quiz-difficulty" class="text-amber-400 font-semibold">Level: Basic</span>
+                    </div>
+
+                    <div class="p-4 sm:p-5 bg-slate-900/90 rounded-2xl border border-slate-800">
+                        <p id="quiz-question-text" class="text-sm sm:text-base text-slate-100 font-medium leading-relaxed">
+                            Loading question...
+                        </p>
+                    </div>
+
+                    <!-- Options Grid -->
+                    <div id="quiz-options" class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        <!-- Options injected dynamically by JS -->
+                    </div>
+
+                    <!-- Solution / Explanation Drawer -->
+                    <div id="quiz-explanation" class="hidden p-4 rounded-xl border text-xs font-mono space-y-2">
+                        <!-- Solution text inserted dynamically -->
+                    </div>
+
+                    <!-- Navigation / Next Button -->
+                    <div class="flex justify-end pt-2">
+                        <button id="btn-next-quiz" class="hidden bg-pink-600 hover:bg-pink-500 text-white px-6 py-2.5 rounded-xl font-semibold text-xs sm:text-sm transition-all flex items-center gap-2 shadow-lg shadow-pink-600/30">
+                            Next Question <i class="fa-solid fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t border-slate-800/80 py-4 mt-auto text-center text-xs text-slate-500 font-mono">
+        Interactive Circle Area Visual Teaching Tool • Designed with HTML5 Canvas & Tailwind CSS
+    </footer>
+
+    <script>
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(content => content.classList.add('hidden'));
+
+            const selectedBtn = document.getElementById(`tab-${tabId}`);
+            const selectedContent = document.getElementById(`content-${tabId}`);
+            if (selectedBtn) selectedBtn.classList.add('active');
+            if (selectedContent) selectedContent.classList.remove('hidden');
+
+            setTimeout(() => {
+                resizeCanvases();
+                if (tabId === 'sectors') drawSectorCanvas();
+                if (tabId === 'rings') drawRingCanvas();
+                if (tabId === 'square') drawSquareCanvas();
+                if (tabId === 'archimedes') drawArchimedesCanvas();
+                if (tabId === 'explorer') drawExplorerCanvas();
+            }, 50);
+        }
+
+        function setupCanvas(canvas) {
+            if (!canvas) return null;
+            const rect = canvas.getBoundingClientRect();
+            const dpr = window.devicePixelRatio || 1;
+            canvas.width = rect.width * dpr;
+            canvas.height = rect.height * dpr;
+            const ctx = canvas.getContext('2d');
+            ctx.scale(dpr, dpr);
+            return { ctx, width: rect.width, height: rect.height };
+        }
+
+        const sectorState = {
+            slices: 16,
+            progress: 0,
+            animating: false,
+            animId: null
+        };
+
+        const sectorSlider = document.getElementById('sector-slider');
+        const rearrangeSlider = document.getElementById('rearrange-slider');
+        const sectorCountLabel = document.getElementById('sector-count-label');
+        const rearrangePercentLabel = document.getElementById('rearrange-percent-label');
+        const btnAnimateSector = document.getElementById('btn-animate-sector');
+        const btnResetSector = document.getElementById('btn-reset-sector');
+
+        if (sectorSlider) {
+            sectorSlider.addEventListener('input', (e) => {
+                sectorState.slices = parseInt(e.target.value);
+                if (sectorCountLabel) sectorCountLabel.textContent = sectorState.slices;
+                drawSectorCanvas();
+            });
+        }
+
+        if (rearrangeSlider) {
+            rearrangeSlider.addEventListener('input', (e) => {
+                sectorState.progress = parseInt(e.target.value);
+                if (rearrangePercentLabel) rearrangePercentLabel.textContent = `${sectorState.progress}%`;
+                drawSectorCanvas();
+            });
+        }
+
+        if (btnAnimateSector) {
+            btnAnimateSector.addEventListener('click', () => {
+                if (sectorState.animating) {
+                    cancelAnimationFrame(sectorState.animId);
+                    sectorState.animating = false;
+                    btnAnimateSector.innerHTML = `<i class="fa-solid fa-play"></i> Animate Morph`;
+                    return;
+                }
+                
+                sectorState.animating = true;
+                btnAnimateSector.innerHTML = `<i class="fa-solid fa-pause"></i> Pause`;
+                
+                function step() {
+                    if (!sectorState.animating) return;
+                    if (sectorState.progress >= 100) {
+                        sectorState.progress = 0;
+                    } else {
+                        sectorState.progress += 0.8;
+                        if (sectorState.progress > 100) sectorState.progress = 100;
+                    }
+                    if (rearrangeSlider) rearrangeSlider.value = sectorState.progress;
+                    if (rearrangePercentLabel) rearrangePercentLabel.textContent = `${Math.round(sectorState.progress)}%`;
+                    drawSectorCanvas();
+
+                    if (sectorState.progress < 100) {
+                        sectorState.animId = requestAnimationFrame(step);
+                    } else {
+                        sectorState.animating = false;
+                        btnAnimateSector.innerHTML = `<i class="fa-solid fa-play"></i> Replay Morph`;
+                    }
+                }
+                step();
+            });
+        }
+
+        if (btnResetSector) {
+            btnResetSector.addEventListener('click', () => {
+                if (sectorState.animating) {
+                    cancelAnimationFrame(sectorState.animId);
+                    sectorState.animating = false;
+                    btnAnimateSector.innerHTML = `<i class="fa-solid fa-play"></i> Animate Morph`;
+                }
+                sectorState.progress = 0;
+                if (rearrangeSlider) rearrangeSlider.value = 0;
+                if (rearrangePercentLabel) rearrangePercentLabel.textContent = `0%`;
+                drawSectorCanvas();
+            });
+        }
+
+        function drawSectorCanvas() {
+            const canvas = document.getElementById('sectorCanvas');
+            const setup = setupCanvas(canvas);
+            if (!setup) return;
+            const { ctx, width, height } = setup;
+
+            ctx.clearRect(0, 0, width, height);
+
+            const N = sectorState.slices;
+            const t = sectorState.progress / 100;
+            const radius = Math.min(width, height) * 0.28;
+            
+            const circleCenterX = width * 0.28;
+            const circleCenterY = height * 0.5;
+
+            const sliceWidth = (2 * Math.PI * radius) / N;
+            const rectWidth = (N / 2) * sliceWidth;
+            const rectStartX = width * 0.52 - rectWidth * 0.45;
+            const rectCenterY = height * 0.5;
+
+            const dAngle = (2 * Math.PI) / N;
+
+            for (let i = 0; i < N; i++) {
+                const angleCircle = i * dAngle + dAngle / 2 - Math.PI / 2;
+
+                const xCircle = circleCenterX;
+                const yCircle = circleCenterY;
+                const rotCircle = angleCircle;
+
+                const isEven = (i % 2 === 0);
+                const col = Math.floor(i / 2);
+                const xRect = rectStartX + col * sliceWidth + (isEven ? 0 : sliceWidth / 2);
+                const yRect = isEven ? rectCenterY + radius / 2 : rectCenterY - radius / 2;
+                const rotRect = isEven ? Math.PI : 0;
+
+                const currentX = (1 - t) * xCircle + t * xRect;
+                const currentY = (1 - t) * yCircle + t * yRect;
+                let currentRot = rotCircle + t * (rotRect - rotCircle);
+
+                ctx.save();
+                ctx.translate(currentX, currentY);
+                ctx.rotate(currentRot);
+
+                ctx.beginPath();
+                ctx.moveTo(0, 0);
+                ctx.arc(0, 0, radius, -dAngle / 2, dAngle / 2);
+                ctx.closePath();
+
+                if (i % 2 === 0) {
+                    ctx.fillStyle = 'rgba(14, 165, 233, 0.75)';
+                    ctx.strokeStyle = 'rgba(56, 189, 248, 0.9)';
+                } else {
+                    ctx.fillStyle = 'rgba(99, 102, 241, 0.75)';
+                    ctx.strokeStyle = 'rgba(129, 140, 248, 0.9)';
+                }
+                ctx.lineWidth = 1.5;
+                ctx.fill();
+                ctx.stroke();
+
+                ctx.restore();
+            }
+
+            if (t > 0.4) {
+                const alpha = (t - 0.4) / 0.6;
+                ctx.save();
+                ctx.globalAlpha = alpha;
+                ctx.font = 'bold 12px Space Grotesk, monospace';
+
+                ctx.fillStyle = '#38bdf8';
+                ctx.textAlign = 'center';
+                ctx.fillText('Base = πr (Half Circumference)', rectStartX + rectWidth / 2, rectCenterY - radius / 2 - 18);
+
+                ctx.beginPath();
+                ctx.strokeStyle = '#38bdf8';
+                ctx.setLineDash([4, 4]);
+                ctx.moveTo(rectStartX - 5, rectCenterY - radius / 2 - 8);
+                ctx.lineTo(rectStartX + rectWidth + 5, rectCenterY - radius / 2 - 8);
+                ctx.stroke();
+
+                ctx.fillStyle = '#ef4444';
+                ctx.textAlign = 'right';
+                ctx.fillText('Height = r', rectStartX - 15, rectCenterY + 4);
+
+                ctx.beginPath();
+                ctx.strokeStyle = '#ef4444';
+                ctx.setLineDash([4, 4]);
+                ctx.moveTo(rectStartX - 10, rectCenterY - radius / 2);
+                ctx.lineTo(rectStartX - 10, rectCenterY + radius / 2);
+                ctx.stroke();
+
+                ctx.restore();
+            }
+        }
+
+        const ringState = {
+            count: 12,
+            progress: 0,
+            animating: false,
+            animId: null
+        };
+
+        const ringSlider = document.getElementById('ring-slider');
+        const ringProgressSlider = document.getElementById('ring-progress-slider');
+        const ringCountLabel = document.getElementById('ring-count-label');
+        const ringUnrollLabel = document.getElementById('ring-unroll-label');
+        const btnAnimateRing = document.getElementById('btn-animate-ring');
+        const btnResetRing = document.getElementById('btn-reset-ring');
+
+        if (ringSlider) {
+            ringSlider.addEventListener('input', (e) => {
+                ringState.count = parseInt(e.target.value);
+                if (ringCountLabel) ringCountLabel.textContent = ringState.count;
+                drawRingCanvas();
+            });
+        }
+
+        if (ringProgressSlider) {
+            ringProgressSlider.addEventListener('input', (e) => {
+                ringState.progress = parseInt(e.target.value);
+                if (ringUnrollLabel) ringUnrollLabel.textContent = `${ringState.progress}%`;
+                drawRingCanvas();
+            });
+        }
+
+        if (btnAnimateRing) {
+            btnAnimateRing.addEventListener('click', () => {
+                if (ringState.animating) {
+                    cancelAnimationFrame(ringState.animId);
+                    ringState.animating = false;
+                    btnAnimateRing.innerHTML = `<i class="fa-solid fa-play"></i> Unroll Rings`;
+                    return;
+                }
+
+                ringState.animating = true;
+                btnAnimateRing.innerHTML = `<i class="fa-solid fa-pause"></i> Pause`;
+
+                function step() {
+                    if (!ringState.animating) return;
+                    if (ringState.progress >= 100) {
+                        ringState.progress = 0;
+                    } else {
+                        ringState.progress += 0.8;
+                        if (ringState.progress > 100) ringState.progress = 100;
+                    }
+                    if (ringProgressSlider) ringProgressSlider.value = ringState.progress;
+                    if (ringUnrollLabel) ringUnrollLabel.textContent = `${Math.round(ringState.progress)}%`;
+                    drawRingCanvas();
+
+                    if (ringState.progress < 100) {
+                        ringState.animId = requestAnimationFrame(step);
+                    } else {
+                        ringState.animating = false;
+                        btnAnimateRing.innerHTML = `<i class="fa-solid fa-play"></i> Replay Unroll`;
+                    }
+                }
+                step();
+            });
+        }
+
+        if (btnResetRing) {
+            btnResetRing.addEventListener('click', () => {
+                if (ringState.animating) {
+                    cancelAnimationFrame(ringState.animId);
+                    ringState.animating = false;
+                    btnAnimateRing.innerHTML = `<i class="fa-solid fa-play"></i> Unroll Rings`;
+                }
+                ringState.progress = 0;
+                if (ringProgressSlider) ringProgressSlider.value = 0;
+                if (ringUnrollLabel) ringUnrollLabel.textContent = `0%`;
+                drawRingCanvas();
+            });
+        }
+
+        function drawRingCanvas() {
+            const canvas = document.getElementById('ringCanvas');
+            const setup = setupCanvas(canvas);
+            if (!setup) return;
+            const { ctx, width, height } = setup;
+
+            ctx.clearRect(0, 0, width, height);
+
+            const numRings = ringState.count;
+            const u = ringState.progress / 100;
+            const maxRadius = Math.min(width, height) * 0.32;
+            const ringThickness = maxRadius / numRings;
+
+            const circleX = width * 0.28;
+            const circleY = height * 0.5;
+
+            const triBase = 2 * Math.PI * maxRadius * 0.45;
+            const triStartX = width * 0.52;
+            const triBottomY = height * 0.72;
+
+            for (let i = 1; i <= numRings; i++) {
+                const r = i * ringThickness;
+                const circLength = (2 * Math.PI * r) * 0.45;
+
+                const hue = 260 + (i / numRings) * 60;
+                ctx.strokeStyle = `hsl(${hue}, 85%, 65%)`;
+                ctx.fillStyle = `hsla(${hue}, 85%, 60%, 0.35)`;
+                ctx.lineWidth = ringThickness * 0.85;
+
+                if (u < 0.05) {
+                    ctx.beginPath();
+                    ctx.arc(circleX, circleY, r - ringThickness / 2, 0, Math.PI * 2);
+                    ctx.stroke();
+                } else {
+                    const currentY = (1 - u) * circleY + u * (triBottomY - (i - 1) * ringThickness);
+                    const currentWidth = (1 - u) * (2 * Math.PI * r * 0.2) + u * circLength;
+                    const currentX = (1 - u) * circleX + u * triStartX;
+
+                    ctx.beginPath();
+                    ctx.roundRect(currentX, currentY - ringThickness / 2, currentWidth, ringThickness * 0.85, 3);
+                    ctx.fill();
+                    ctx.stroke();
+                }
+            }
+
+            if (u > 0.6) {
+                const alpha = (u - 0.6) / 0.4;
+                ctx.save();
+                ctx.globalAlpha = alpha;
+                ctx.font = 'bold 12px Space Grotesk, monospace';
+
+                ctx.fillStyle = '#c084fc';
+                ctx.textAlign = 'center';
+                ctx.fillText('Base = 2πr (Circumference)', triStartX + triBase / 2, triBottomY + 25);
+
+                ctx.beginPath();
+                ctx.strokeStyle = '#c084fc';
+                ctx.lineWidth = 2;
+                ctx.moveTo(triStartX, triBottomY + 10);
+                ctx.lineTo(triStartX + triBase, triBottomY + 10);
+                ctx.stroke();
+
+                ctx.fillStyle = '#ef4444';
+                ctx.textAlign = 'right';
+                ctx.fillText('Height = r', triStartX - 15, triBottomY - (numRings * ringThickness) / 2);
+
+                ctx.restore();
+            }
+        }
+
+        const chkShowGrid = document.getElementById('chk-show-grid');
+        if (chkShowGrid) {
+            chkShowGrid.addEventListener('change', drawSquareCanvas);
+        }
+
+        function drawSquareCanvas() {
+            const canvas = document.getElementById('squareCanvas');
+            const setup = setupCanvas(canvas);
+            if (!setup) return;
+            const { ctx, width, height } = setup;
+
+            ctx.clearRect(0, 0, width, height);
+
+            const centerX = width * 0.5;
+            const centerY = height * 0.5;
+            const radius = Math.min(width, height) * 0.35;
+
+            const showGrid = chkShowGrid ? chkShowGrid.checked : true;
+
+            const squareCoords = [
+                { x: centerX - radius, y: centerY - radius, label: 'Square 1 (r²)' },
+                { x: centerX, y: centerY - radius, label: 'Square 2 (r²)' },
+                { x: centerX - radius, y: centerY, label: 'Square 3 (r²)' },
+                { x: centerX, y: centerY, label: 'Square 4 (r²)' }
+            ];
+
+            squareCoords.forEach((sq, idx) => {
+                ctx.fillStyle = (idx < 3) ? 'rgba(245, 158, 11, 0.12)' : 'rgba(239, 68, 68, 0.08)';
+                ctx.fillRect(sq.x, sq.y, radius, radius);
+
+                ctx.strokeStyle = 'rgba(245, 158, 11, 0.5)';
+                ctx.lineWidth = 2;
+                ctx.strokeRect(sq.x, sq.y, radius, radius);
+
+                ctx.fillStyle = 'rgba(251, 191, 36, 0.8)';
+                ctx.font = 'bold 12px Space Grotesk, monospace';
+                ctx.textAlign = 'center';
+                ctx.fillText(sq.label, sq.x + radius / 2, sq.y + radius / 2);
+            });
+
+            ctx.beginPath();
+            ctx.arc(centerX, centerY, radius, 0, Math.PI * 2);
+            ctx.fillStyle = 'rgba(16, 185, 129, 0.45)';
+            ctx.fill();
+            ctx.strokeStyle = '#10b981';
+            ctx.lineWidth = 3;
+            ctx.stroke();
+
+            ctx.beginPath();
+            ctx.moveTo(centerX, centerY);
+            ctx.lineTo(centerX + radius, centerY);
+            ctx.strokeStyle = '#ef4444';
+            ctx.lineWidth = 3;
+            ctx.stroke();
+
+            ctx.fillStyle = '#ef4444';
+            ctx.font = 'bold 14px Space Grotesk, monospace';
+            ctx.textAlign = 'center';
+            ctx.fillText('r', centerX + radius / 2, centerY - 8);
+
+            if (showGrid) {
+                ctx.strokeStyle = 'rgba(255, 255, 255, 0.08)';
+                ctx.lineWidth = 1;
+                const step = radius / 5;
+                for (let x = centerX - radius; x <= centerX + radius; x += step) {
+                    ctx.beginPath();
+                    ctx.moveTo(x, centerY - radius);
+                    ctx.lineTo(x, centerY + radius);
+                    ctx.stroke();
+                }
+                for (let y = centerY - radius; y <= centerY + radius; y += step) {
+                    ctx.beginPath();
+                    ctx.moveTo(centerX - radius, y);
+                    ctx.lineTo(centerX + radius, y);
+                    ctx.stroke();
+                }
+            }
+        }
+
+        const polySlider = document.getElementById('poly-slider');
+        const polySidesLabel = document.getElementById('poly-sides-label');
+        const polyInscribedVal = document.getElementById('poly-inscribed-val');
+        const polyCircumVal = document.getElementById('poly-circum-val');
+
+        if (polySlider) {
+            polySlider.addEventListener('input', (e) => {
+                const N = parseInt(e.target.value);
+                if (polySidesLabel) polySidesLabel.textContent = N;
+                
+                const inArea = (0.5 * N * Math.sin((2 * Math.PI) / N)).toFixed(3);
+                const outArea = (N * Math.tan(Math.PI / N)).toFixed(3);
+
+                if (polyInscribedVal) polyInscribedVal.textContent = `${inArea} r²`;
+                if (polyCircumVal) polyCircumVal.textContent = `${outArea} r²`;
+
+                drawArchimedesCanvas();
+            });
+        }
+
+        function drawArchimedesCanvas() {
+            const canvas = document.getElementById('archimedesCanvas');
+            const setup = setupCanvas(canvas);
+            if (!setup) return;
+            const { ctx, width, height } = setup;
+
+            ctx.clearRect(0, 0, width, height);
+
+            const N = polySlider ? parseInt(polySlider.value) : 6;
+            const radius = Math.min(width, height) * 0.32;
+            const centerX = width * 0.5;
+            const centerY = height * 0.5;
+
+            // 1. Draw Outer Circumscribed Polygon
+            const R_out = radius / Math.cos(Math.PI / N);
+            ctx.beginPath();
+            for (let i = 0; i < N; i++) {
+                const angle = (i * 2 * Math.PI) / N;
+                const x = centerX + R_out * Math.cos(angle);
+                const y = centerY + R_out * Math.sin(angle);
+                if (i === 0) ctx.moveTo(x, y);
+                else ctx.lineTo(x, y);
+            }
+            ctx.closePath();
+            ctx.fillStyle = 'rgba(236, 72, 153, 0.15)';
+            ctx.fill();
+            ctx.strokeStyle = '#ec4899';
+            ctx.lineWidth = 2;
+            ctx.stroke();
+
+            // 2. Draw Target Circle
+            ctx.beginPath();
+            ctx.arc(centerX, centerY, radius, 0, Math.PI * 2);
+            ctx.fillStyle = 'rgba(16, 185, 129, 0.3)';
+            ctx.fill();
+            ctx.strokeStyle = '#10b981';
+            ctx.lineWidth = 3;
+            ctx.stroke();
+
+            // 3. Draw Inner Inscribed Polygon
+            ctx.beginPath();
+            for (let i = 0; i < N; i++) {
+                const angle = (i * 2 * Math.PI) / N;
+                const x = centerX + radius * Math.cos(angle);
+                const y = centerY + radius * Math.sin(angle);
+                if (i === 0) ctx.moveTo(x, y);
+                else ctx.lineTo(x, y);
+            }
+            ctx.closePath();
+            ctx.fillStyle = 'rgba(56, 189, 248, 0.25)';
+            ctx.fill();
+            ctx.strokeStyle = '#38bdf8';
+            ctx.lineWidth = 2;
+            ctx.stroke();
+
+            // Radius ray
+            ctx.beginPath();
+            ctx.moveTo(centerX, centerY);
+            ctx.lineTo(centerX + radius, centerY);
+            ctx.strokeStyle = '#ef4444';
+            ctx.lineWidth = 2;
+            ctx.stroke();
+
+            ctx.fillStyle = '#ffffff';
+            ctx.font = 'bold 12px Space Grotesk, monospace';
+            ctx.textAlign = 'center';
+            ctx.fillText(`r`, centerX + radius / 2, centerY - 6);
+        }
+
+        const playgroundSlider = document.getElementById('playground-slider');
+        const playgroundRVal = document.getElementById('playground-r-val');
+        const stepRSq = document.getElementById('step-r-sq');
+        const stepPiCalc = document.getElementById('step-pi-calc');
+        const stepExactArea = document.getElementById('step-exact-area');
+        const stepFinalArea = document.getElementById('step-final-area');
+        const playgroundCirc = document.getElementById('playground-circ');
+        const playgroundDiam = document.getElementById('playground-diam');
+
+        if (playgroundSlider) {
+            playgroundSlider.addEventListener('input', (e) => {
+                const r = parseFloat(e.target.value);
+                updatePlayground(r);
+            });
+        }
+
+        function updatePlayground(r) {
+            const rSq = (r * r).toFixed(2);
+            const area = (Math.PI * r * r).toFixed(2);
+            const circ = (2 * Math.PI * r).toFixed(2);
+            const diam = (2 * r).toFixed(2);
+
+            if (playgroundRVal) playgroundRVal.textContent = `${r.toFixed(1)} cm`;
+            if (stepRSq) stepRSq.textContent = `${r.toFixed(1)}² = ${rSq} cm²`;
+            if (stepPiCalc) stepPiCalc.textContent = `3.14159 × ${rSq}`;
+            if (stepExactArea) stepExactArea.textContent = `${rSq}π cm²`;
+            if (stepFinalArea) stepFinalArea.innerHTML = `${area} <span class="text-xs text-emerald-300">cm²</span>`;
+            if (playgroundCirc) playgroundCirc.textContent = `${circ} cm`;
+            if (playgroundDiam) playgroundDiam.textContent = `${diam} cm`;
+
+            drawExplorerCanvas();
+        }
+
+        function drawExplorerCanvas() {
+            const canvas = document.getElementById('explorerCanvas');
+            const setup = setupCanvas(canvas);
+            if (!setup) return;
+            const { ctx, width, height } = setup;
+
+            ctx.clearRect(0, 0, width, height);
+
+            const rVal = playgroundSlider ? parseFloat(playgroundSlider.value) : 5;
+            const maxRVal = 15;
+            const maxCanvasRadius = Math.min(width, height) * 0.38;
+            const pixelRadius = (rVal / maxRVal) * maxCanvasRadius;
+
+            const centerX = width * 0.5;
+            const centerY = height * 0.5;
+
+            // Draw r² square backdrop
+            ctx.fillStyle = 'rgba(245, 158, 11, 0.15)';
+            ctx.fillRect(centerX, centerY - pixelRadius, pixelRadius, pixelRadius);
+            ctx.strokeStyle = '#f59e0b';
+            ctx.lineWidth = 1.5;
+            ctx.setLineDash([4, 4]);
+            ctx.strokeRect(centerX, centerY - pixelRadius, pixelRadius, pixelRadius);
+            ctx.setLineDash([]);
+
+            ctx.fillStyle = '#f59e0b';
+            ctx.font = 'bold 11px Space Grotesk, monospace';
+            ctx.textAlign = 'center';
+            ctx.fillText(`r² tile (${(rVal*rVal).toFixed(1)})`, centerX + pixelRadius/2, centerY - pixelRadius/2);
+
+            // Fill Circle
+            ctx.beginPath();
+            ctx.arc(centerX, centerY, pixelRadius, 0, Math.PI * 2);
+            ctx.fillStyle = 'rgba(16, 185, 129, 0.35)';
+            ctx.fill();
+            ctx.strokeStyle = '#10b981';
+            ctx.lineWidth = 3;
+            ctx.stroke();
+
+            // Draw Radius Line
+            ctx.beginPath();
+            ctx.moveTo(centerX, centerY);
+            ctx.lineTo(centerX + pixelRadius, centerY);
+            ctx.strokeStyle = '#ef4444';
+            ctx.lineWidth = 3;
+            ctx.stroke();
+
+            // Radius handle point
+            ctx.beginPath();
+            ctx.arc(centerX + pixelRadius, centerY, 6, 0, Math.PI * 2);
+            ctx.fillStyle = '#ef4444';
+            ctx.fill();
+
+            // Text Label
+            ctx.fillStyle = '#ffffff';
+            ctx.font = 'bold 13px Space Grotesk, monospace';
+            ctx.textAlign = 'center';
+            ctx.fillText(`r = ${rVal.toFixed(1)} cm`, centerX + pixelRadius / 2, centerY + 20);
+        }
+
+        const quizQuestions = [
+            {
+                question: "A circular garden has a radius of 4 cm. What is its exact area in terms of π?",
+                options: ["8π cm²", "16π cm²", "32π cm²", "64π cm²"],
+                correct: 1,
+                explanation: "Area = π × r². Substituting r = 4 gives A = π × 4² = 16π cm²."
+            },
+            {
+                question: "If a circular pool has a diameter of 10 m, what is its approximate area? (Use π ≈ 3.14)",
+                options: ["31.4 m²", "78.5 m²", "314 m²", "100 m²"],
+                correct: 1,
+                explanation: "First calculate radius r = diameter / 2 = 5 m. Then Area = 3.14 × 5² = 3.14 × 25 = 78.5 m²."
+            },
+            {
+                question: "When rearranging a circle's sectors into a rectangle, what does the width (base) of the rectangle represent?",
+                options: ["The diameter (2r)", "The radius (r)", "Half of the circumference (πr)", "The entire circumference (2πr)"],
+                correct: 2,
+                explanation: "The top edge of the rectangle consists of half the circle's arc length, which equals half the circumference = (2πr) / 2 = πr."
+            },
+            {
+                question: "A circular mirror has an area of roughly 154 cm². Which value is closest to its radius? (Use π ≈ 22/7)",
+                options: ["7 cm", "14 cm", "22 cm", "49 cm"],
+                correct: 0,
+                explanation: "Area = πr² → 154 = (22/7) × r². Solving gives r² = 154 × (7/22) = 49. Therefore, r = √49 = 7 cm."
+            },
+            {
+                question: "How many full r × r square tiles can fit inside a circle of radius r without overflowing?",
+                options: ["2 tiles", "3 full tiles (plus 0.14 left over)", "4 full tiles", "6 full tiles"],
+                correct: 1,
+                explanation: "Since Circle Area = πr² ≈ 3.14159 r², the circle area equals approximately 3 full r² square tiles plus 0.14159 of a tile!"
+            }
+        ];
+
+        let currentQuizIndex = 0;
+        let score = 0;
+        let answered = false;
+
+        function loadQuizQuestion() {
+            answered = false;
+            const q = quizQuestions[currentQuizIndex];
+            
+            document.getElementById('quiz-question-number').textContent = `Question ${currentQuizIndex + 1} of ${quizQuestions.length}`;
+            document.getElementById('quiz-question-text').textContent = q.question;
+            
+            const optionsContainer = document.getElementById('quiz-options');
+            optionsContainer.innerHTML = '';
+
+            const explanationBox = document.getElementById('quiz-explanation');
+            explanationBox.classList.add('hidden');
+
+            const nextBtn = document.getElementById('btn-next-quiz');
+            nextBtn.classList.add('hidden');
+
+            q.options.forEach((opt, idx) => {
+                const btn = document.createElement('button');
+                btn.className = "p-4 bg-slate-900/90 hover:bg-slate-800 border border-slate-700/80 rounded-xl text-left text-xs sm:text-sm font-medium text-slate-200 transition-all flex items-center justify-between group cursor-pointer";
+                btn.innerHTML = `
+                    <span>${opt}</span>
+                    <i class="fa-regular fa-circle text-slate-500 group-hover:text-pink-400"></i>
+                `;
+                btn.onclick = () => selectQuizOption(idx);
+                optionsContainer.appendChild(btn);
+            });
+        }
+
+        function selectQuizOption(selectedIndex) {
+            if (answered) return;
+            answered = true;
+
+            const q = quizQuestions[currentQuizIndex];
+            const optionsContainer = document.getElementById('quiz-options');
+            const buttons = optionsContainer.children;
+
+            if (selectedIndex === q.correct) {
+                score++;
+                buttons[selectedIndex].className = "p-4 bg-emerald-950/80 border-2 border-emerald-500 rounded-xl text-left text-xs sm:text-sm font-semibold text-emerald-200 flex items-center justify-between";
+                buttons[selectedIndex].innerHTML = `<span>${q.options[selectedIndex]}</span> <i class="fa-solid fa-circle-check text-emerald-400 text-base"></i>`;
+            } else {
+                buttons[selectedIndex].className = "p-4 bg-rose-950/80 border-2 border-rose-500 rounded-xl text-left text-xs sm:text-sm font-semibold text-rose-200 flex items-center justify-between";
+                buttons[selectedIndex].innerHTML = `<span>${q.options[selectedIndex]}</span> <i class="fa-solid fa-circle-xmark text-rose-400 text-base"></i>`;
+                
+                buttons[q.correct].className = "p-4 bg-emerald-950/40 border border-emerald-500/50 rounded-xl text-left text-xs sm:text-sm font-medium text-emerald-300 flex items-center justify-between";
+            }
+
+            document.getElementById('quiz-score').textContent = `${score} / ${quizQuestions.length}`;
+
+            const explanationBox = document.getElementById('quiz-explanation');
+            explanationBox.className = "p-4 rounded-xl border text-xs font-mono space-y-1 bg-slate-900/90 border-slate-700 text-slate-300";
+            explanationBox.innerHTML = `<span class="text-pink-400 font-bold block"><i class="fa-solid fa-lightbulb mr-1"></i> Explanation:</span>${q.explanation}`;
+            explanationBox.classList.remove('hidden');
+
+            document.getElementById('btn-next-quiz').classList.remove('hidden');
+        }
+
+        document.getElementById('btn-next-quiz').addEventListener('click', () => {
+            currentQuizIndex++;
+            if (currentQuizIndex < quizQuestions.length) {
+                loadQuizQuestion();
+            } else {
+                document.getElementById('quiz-card').innerHTML = `
+                    <div class="text-center py-8 space-y-4">
+                        <div class="w-16 h-16 bg-pink-500/20 text-pink-400 rounded-full flex items-center justify-center mx-auto text-3xl">
+                            <i class="fa-solid fa-trophy"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold text-white">Quiz Completed!</h3>
+                        <p class="text-slate-300 font-mono">You scored <span class="text-emerald-400 font-bold text-xl">${score} / ${quizQuestions.length}</span></p>
+                        <button onclick="resetQuiz()" class="bg-pink-600 hover:bg-pink-500 text-white px-6 py-2.5 rounded-xl font-semibold text-sm transition-all inline-flex items-center gap-2 cursor-pointer shadow-lg shadow-pink-600/30">
+                            <i class="fa-solid fa-rotate-left"></i> Retake Practice Quiz
+                        </button>
+                    </div>
+                `;
+            }
+        });
+
+        function resetQuiz() {
+            currentQuizIndex = 0;
+            score = 0;
+            document.getElementById('quiz-score').textContent = `0 / ${quizQuestions.length}`;
+            document.getElementById('quiz-card').innerHTML = `
+                <div class="flex items-center justify-between text-xs font-mono text-slate-400">
+                    <span id="quiz-question-number" class="bg-slate-800 px-3 py-1 rounded-full border border-slate-700 text-pink-300">Question 1 of 5</span>
+                    <span id="quiz-difficulty" class="text-amber-400 font-semibold">Level: Basic</span>
+                </div>
+                <div class="p-4 sm:p-5 bg-slate-900/80 rounded-2xl border border-slate-800">
+                    <p id="quiz-question-text" class="text-sm sm:text-base text-slate-100 font-medium leading-relaxed"></p>
+                </div>
+                <div id="quiz-options" class="grid grid-cols-1 sm:grid-cols-2 gap-3"></div>
+                <div id="quiz-explanation" class="hidden p-4 rounded-xl border text-xs font-mono space-y-2"></div>
+                <div class="flex justify-end pt-2">
+                    <button id="btn-next-quiz" class="hidden bg-pink-600 hover:bg-pink-500 text-white px-6 py-2.5 rounded-xl font-semibold text-xs sm:text-sm transition-all flex items-center gap-2 shadow-lg shadow-pink-600/30">
+                        Next Question <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+                </div>
+            `;
+            loadQuizQuestion();
+        }
+
+        function resizeCanvases() {
+            drawSectorCanvas();
+            drawRingCanvas();
+            drawSquareCanvas();
+            drawArchimedesCanvas();
+            drawExplorerCanvas();
+        }
+
+        window.addEventListener('resize', resizeCanvases);
+
+        window.onload = function() {
+            resizeCanvases();
+            updatePlayground(5);
+            loadQuizQuestion();
+        };
+    </script>
+</body>
+</html>

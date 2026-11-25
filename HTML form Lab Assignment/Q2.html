@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>OPD Patient Registration Slip</title>
+</head>
+
+<body>
+
+  <h2 align="center">
+    Dhulikhel Community Hospital<br>
+    <small>OPD Patient Registration Slip</small>
+  </h2>
+
+  <hr>
+
+  <form action="#" method="post">
+
+```
+<fieldset>
+  <legend><b>1. Patient Details</b></legend>
+
+  <table>
+
+    <tr>
+      <td>Patient Name</td>
+      <td>
+        <input type="text" id="pname" name="patient_name"
+               size="30" required>
+      </td>
+
+      <td>Age</td>
+      <td>
+        <input type="number" id="age" name="age"
+               min="0" max="120" size="4"> years
+      </td>
+    </tr>
+
+    <tr>
+      <td>Sex</td>
+      <td>
+        <input type="radio" id="m" name="sex" value="male">
+        Male
+
+        <input type="radio" id="f" name="sex" value="female">
+        Female
+
+        <input type="radio" id="o" name="sex" value="other">
+        Other
+      </td>
+
+      <td>Blood Group</td>
+      <td>
+        <select id="bg" name="blood_group">
+          <option value="unknown">Unknown</option>
+          <option>A+</option>
+          <option>A-</option>
+          <option>B+</option>
+          <option>B-</option>
+          <option>AB+</option>
+          <option>AB-</option>
+          <option>O+</option>
+          <option>O-</option>
+        </select>
+      </td>
+    </tr>
+
+    <tr>
+      <td>Address</td>
+      <td colspan="3">
+        <input type="text" id="addr" name="address"
+               size="70"
+               placeholder="Municipality, Ward No., Tole">
+      </td>
+    </tr>
+
+  </table>
+
+  <fieldset>
+    <legend><i>1.1 Emergency Contact</i></legend>
+
+    Name:
+    <input type="text" id="ecname" name="emergency_name">
+
+    Relation:
+    <select id="ecrel" name="emergency_relation">
+      <option>Father</option>
+      <option>Mother</option>
+      <option>Spouse</option>
+      <option>Son</option>
+      <option>Daughter</option>
+      <option>Sibling</option>
+      <option>Other</option>
+    </select>
+
+    Phone:
+    <input type="tel" id="ecphone" name="emergency_phone">
+
+  </fieldset>
+
+</fieldset>
+
+
+<fieldset>
+  <legend><b>2. Visit Details</b></legend>
+
+  <table>
+
+    <tr>
+
+      <td valign="top">Department</td>
+
+      <td valign="top">
+        <select id="dept" name="department" size="8">
+
+          <optgroup label="Medicine">
+            <option value="general_medicine">General Medicine</option>
+            <option value="cardiology">Cardiology</option>
+            <option value="neurology">Neurology</option>
+          </optgroup>
+
+          <optgroup label="Surgery">
+            <option value="general_surgery">General Surgery</option>
+            <option value="orthopaedics">Orthopaedics</option>
+          </optgroup>
+
+          <optgroup label="Others">
+            <option value="paediatrics">Paediatrics</option>
+            <option value="dental">Dental</option>
+          </optgroup>
+
+        </select>
+      </td>
+
+      <td valign="top">
+
+        Visit Date<br>
+        <input type="date" id="vdate" name="visit_date">
+
+        <br><br>
+
+        Preferred Time<br>
+        <input type="time" id="vtime" name="visit_time">
+
+        <br><br>
+
+        Visit Type<br>
+
+        <input type="radio" id="vt_new"
+               name="visit_type" value="new" checked>
+        New
+
+        <input type="radio" id="vt_fu"
+               name="visit_type" value="followup">
+        Follow-up
+
+      </td>
+
+    </tr>
+
+  </table>
+
+
+  <p>
+    Symptoms (tick all that apply):<br>
+
+    <input type="checkbox" id="sy1"
+           name="symptoms" value="fever">
+    Fever
+
+    <input type="checkbox" id="sy2"
+           name="symptoms" value="cough">
+    Cough
+
+    <input type="checkbox" id="sy3"
+           name="symptoms" value="headache">
+    Headache
+
+    <input type="checkbox" id="sy4"
+           name="symptoms" value="chest_pain">
+    Chest Pain
+
+    <input type="checkbox" id="sy5"
+           name="symptoms" value="injury">
+    Injury
+
+    <input type="checkbox" id="sy6"
+           name="symptoms" value="other">
+    Other
+  </p>
+
+
+  <p>
+    Describe the problem and any medicine you are already taking:
+    <br>
+
+    <textarea id="problem" name="problem"
+              rows="3" cols="70"></textarea>
+  </p>
+
+</fieldset>
+
+
+<p align="center">
+  <input type="submit" value="Generate OPD Ticket">
+  <input type="reset" value="Reset">
+</p>
+```
+
+  </form>
+
+</body>
+</html>

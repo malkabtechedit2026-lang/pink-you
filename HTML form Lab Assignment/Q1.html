@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Central Library Membership Form</title>
+</head>
+
+<body>
+
+    <h2 align="center">Central Library Membership Form</h2>
+
+    <p align="center">
+        <i>Fields marked with * are mandatory</i>
+    </p>
+
+    <form action="#" method="post">
+
+        ```
+        <fieldset>
+            <legend><b>1. Member Information</b></legend>
+
+            <table>
+
+                <tr>
+                    <td>Full Name *</td>
+                    <td>
+                        <input type="text" id="fullname" name="fullname" placeholder="As in your ID card" size="30"
+                            required>
+                    </td>
+
+                    <td>Student / Staff ID *</td>
+                    <td>
+                        <input type="text" id="memberid" name="member_id" placeholder="e.g. KU-2025-0117" required>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>Email *</td>
+                    <td>
+                        <input type="email" id="email" name="email" placeholder="name@ku.edu.np" size="30" required>
+                    </td>
+
+                    <td>Mobile</td>
+                    <td>
+                        <input type="tel" id="mobile" name="mobile" placeholder="98XXXXXXXX">
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>Member Type *</td>
+                    <td>
+
+                        <input type="radio" id="mt_student" name="member_type" value="student" checked required>
+                        Student
+
+                        <input type="radio" id="mt_faculty" name="member_type" value="faculty">
+                        Faculty
+
+                        <input type="radio" id="mt_staff" name="member_type" value="staff">
+                        Staff
+
+                    </td>
+
+                    <td>School</td>
+                    <td>
+
+                        <select id="school" name="school">
+                            <option value="">--Choose School--</option>
+                            <option value="science">School of Science</option>
+                            <option value="engineering">School of Engineering</option>
+                            <option value="management">School of Management</option>
+                            <option value="education">School of Education</option>
+                            <option value="arts">School of Arts</option>
+                        </select>
+
+                    </td>
+                </tr>
+
+            </table>
+
+        </fieldset>
+
+
+        <fieldset>
+            <legend><b>2. Membership Preferences</b></legend>
+
+            <table>
+
+                <tr>
+                    <td>Membership Start Date</td>
+                    <td>
+                        <input type="date" id="startdate" name="start_date">
+                    </td>
+
+                    <td align="right">Duration</td>
+                    <td>
+
+                        <select id="duration" name="duration">
+                            <option value="1">1 Year</option>
+                            <option value="2">2 Years</option>
+                            <option value="3">3 Years</option>
+                            <option value="4">4 Years</option>
+                        </select>
+
+                    </td>
+                </tr>
+
+
+                <tr>
+                    <td>Sections of Interest</td>
+
+                    <td colspan="3">
+
+                        <input type="checkbox" id="s_ref" name="sections" value="reference">
+                        Reference
+
+                        <input type="checkbox" id="s_per" name="sections" value="periodicals">
+                        Periodicals
+
+                        <input type="checkbox" id="s_the" name="sections" value="thesis">
+                        Thesis Archive
+
+                        <input type="checkbox" id="s_elib" name="sections" value="elibrary" checked>
+                        E-Library
+
+                    </td>
+                </tr>
+
+
+                <tr>
+                    <td valign="top">
+                        Books you want the library to buy
+                    </td>
+
+                    <td colspan="3">
+
+                        <textarea id="books" name="books_request" rows="3" cols="55"
+                            placeholder="Title, Author, Edition (one per line)"></textarea>
+
+                    </td>
+                </tr>
+
+            </table>
+
+        </fieldset>
+
+
+        <p>
+            <input type="checkbox" id="agree" name="agree" value="yes" required>
+
+            I agree to follow the library rules and return books on time.
+        </p>
+
+
+        <p align="center">
+            <input type="submit" value="Register">
+            <input type="reset" value="Clear Form">
+        </p>
+        ```
+
+    </form>
+
+</body>
+
+</html>

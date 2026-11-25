@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Sagarmatha University - Graduate Admission</title>
+</head>
+
+<body>
+
+    <form action="#" method="post" enctype="multipart/form-data">
+
+        <p align="right">
+            Application No.<br>
+            <input type="text" name="application_no" value="SU-G-2027-004512" readonly>
+        </p>
+
+        <h3>Sagarmatha University</h3>
+
+        <p>
+            <b>Office of the Registrar</b><br>
+            Graduate Admission Application, Fall 2027 Intake
+        </p>
+
+        <hr>
+
+
+        <!-- PART 1 -->
+        <fieldset>
+            <legend><b>Part 1: Programme Preference</b></legend>
+
+            <table border="1" cellpadding="4" cellspacing="0">
+
+                <tr>
+                    <th>Preference</th>
+                    <th>Programme</th>
+                    <th>Shift</th>
+                    <th>Scholarship Wanted?</th>
+                </tr>
+
+                <tr>
+                    <td align="center">1st</td>
+
+                    <td>
+                        <select name="prog1">
+                            <option value="">--Select Programme--</option>
+                            <option>M.Sc. Computer Science</option>
+                            <option>M.Sc. Information Technology</option>
+                            <option>MBA</option>
+                            <option>M.Ed.</option>
+                            <option>M.Sc. Physics</option>
+                        </select>
+                    </td>
+
+                    <td>
+                        <input type="radio" name="shift1" value="day" checked>
+                        Day
+
+                        <input type="radio" name="shift1" value="evening">
+                        Evening
+                    </td>
+
+                    <td align="center">
+                        <input type="checkbox" name="scholar1" value="yes">
+                    </td>
+                </tr>
+
+                <tr>
+                    <td align="center">2nd</td>
+
+                    <td>
+                        <select name="prog2">
+                            <option value="">--Select Programme--</option>
+                            <option>M.Sc. Computer Science</option>
+                            <option>M.Sc. Information Technology</option>
+                            <option>MBA</option>
+                            <option>M.Ed.</option>
+                            <option>M.Sc. Physics</option>
+                        </select>
+                    </td>
+
+                    <td>
+                        <input type="radio" name="shift2" value="day" checked>
+                        Day
+
+                        <input type="radio" name="shift2" value="evening">
+                        Evening
+                    </td>
+
+                    <td align="center">
+                        <input type="checkbox" name="scholar2" value="yes">
+                    </td>
+                </tr>
+
+                <tr>
+                    <td align="center">3rd</td>
+
+                    <td>
+                        <select name="prog3">
+                            <option value="">--Select Programme--</option>
+                            <option>M.Sc. Computer Science</option>
+                            <option>M.Sc. Information Technology</option>
+                            <option>MBA</option>
+                            <option>M.Ed.</option>
+                            <option>M.Sc. Physics</option>
+                        </select>
+                    </td>
+
+                    <td>
+                        <input type="radio" name="shift3" value="day" checked>
+                        Day
+
+                        <input type="radio" name="shift3" value="evening">
+                        Evening
+                    </td>
+
+                    <td align="center">
+                        <input type="checkbox" name="scholar3" value="yes">
+                    </td>
+                </tr>
+
+            </table>
+        </fieldset>
+
+
+        <!-- PART 2 -->
+        <fieldset>
+
+            <legend><b>Part 2: Applicant</b></legend>
+
+            <table>
+
+                <tr>
+                    <td>Name (English, BLOCK letters)</td>
+                    <td>
+                        <input type="text" name="name_english" required>
+                    </td>
+
+                    <td>Name (Devanagari)</td>
+                    <td>
+                        <input type="text" name="name_devanagari" placeholder="नाम थर">
+                    </td>
+
+                    <td rowspan="4" align="center" valign="middle">
+
+                        <fieldset>
+                            <legend>Photo</legend>
+
+                            <input type="file" name="photo" accept="image/*">
+                        </fieldset>
+
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>Date of Birth</td>
+                    <td>
+                        <input type="date" name="dob" required>
+                    </td>
+
+                    <td>Gender</td>
+                    <td>
+                        <input type="radio" name="gender" value="male">
+                        Male
+
+                        <input type="radio" name="gender" value="female">
+                        Female
+
+                        <input type="radio" name="gender" value="other">
+                        Other
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>Email</td>
+                    <td>
+                        <input type="email" name="email" required>
+                    </td>
+
+                    <td>Mobile</td>
+                    <td>
+                        <input type="tel" name="mobile">
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>Admission Category</td>
+
+                    <td>
+                        <select name="category">
+                            <option>Open</option>
+                            <option>Women</option>
+                            <option>Janajati</option>
+                            <option>Dalit</option>
+                            <option>Madhesi</option>
+                            <option>Disabled</option>
+                            <option>Remote Area</option>
+                        </select>
+                    </td>
+
+                    <td>District</td>
+
+                    <td>
+                        <input type="text" name="district">
+                    </td>
+                </tr>
+
+            </table>
+
+
+            <!-- Guardian -->
+            <fieldset>
+
+                <legend>
+                    <i>Guardian (for official correspondence)</i>
+                </legend>
+
+                Name
+
+                <select name="guardian_title">
+                    <option>Mr.</option>
+                    <option>Mrs.</option>
+                    <option>Ms.</option>
+                    <option>Dr.</option>
+                </select>
+
+                <input type="text" name="guardian_name">
+
+                &nbsp;&nbsp;
+
+                Relation
+
+                <input type="text" name="guardian_relation" size="12">
+
+                &nbsp;&nbsp;
+
+                Phone
+
+                <input type="tel" name="guardian_phone">
+
+            </fieldset>
+
+        </fieldset>
+
+
+        <!-- PART 3 -->
+        <fieldset>
+
+            <legend><b>Part 3: Academic Record</b></legend>
+
+            <table border="1" cellpadding="4" cellspacing="0">
+
+                <tr>
+                    <th rowspan="2">Level</th>
+                    <th rowspan="2">Board / University</th>
+                    <th rowspan="2">Institution</th>
+                    <th rowspan="2">Passed Year</th>
+                    <th colspan="2">Result</th>
+                </tr>
+
+                <tr>
+                    <th>System</th>
+                    <th>Score</th>
+                </tr>
+
+                <tr>
+                    <td>SEE / SLC</td>
+
+                    <td>
+                        <input type="text" name="see_board" value="NEB" size="12">
+                    </td>
+
+                    <td>
+                        <input type="text" name="see_inst" size="30">
+                    </td>
+
+                    <td>
+                        <input type="number" name="see_year" size="6">
+                    </td>
+
+                    <td>
+                        <input type="radio" name="see_sys" value="gpa" checked>
+                        GPA
+
+                        <input type="radio" name="see_sys" value="percent">
+                        %
+                    </td>
+
+                    <td>
+                        <input type="text" name="see_score" size="10">
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>+2 / A-Level</td>
+
+                    <td>
+                        <input type="text" name="plus2_board" size="12">
+                    </td>
+
+                    <td>
+                        <input type="text" name="plus2_inst" size="30">
+                    </td>
+
+                    <td>
+                        <input type="number" name="plus2_year" size="6">
+                    </td>
+
+                    <td>
+                        <input type="radio" name="plus2_sys" value="gpa" checked>
+                        GPA
+
+                        <input type="radio" name="plus2_sys" value="percent">
+                        %
+                    </td>
+
+                    <td>
+                        <input type="text" name="plus2_score" size="10">
+                    </td>
+                </tr>
+
+                <tr>
+                    <td rowspan="2">Bachelor</td>
+
+                    <td>
+                        <input type="text" name="bach_board" size="12">
+                    </td>
+
+                    <td>
+                        <input type="text" name="bach_inst" size="30">
+                    </td>
+
+                    <td>
+                        <input type="number" name="bach_year" size="6">
+                    </td>
+
+                    <td>
+                        <input type="radio" name="bach_sys" value="cgpa" checked>
+                        CGPA
+
+                        <input type="radio" name="bach_sys" value="percent">
+                        %
+                    </td>
+
+                    <td>
+                        <input type="text" name="bach_score" size="10">
+                    </td>
+                </tr>
+
+                <tr>
+                    <td colspan="3">
+
+                        Degree & Major
+
+                        <input type="text" name="degree_major" placeholder="e.g. B.Sc. CSIT">
+
+                        &nbsp;&nbsp;&nbsp;
+
+                        Transcript
+
+                        <input type="file" name="transcript">
+
+                    </td>
+                </tr>
+
+            </table>
+
+        </fieldset>
+
+
+        <!-- PART 4 -->
+        <fieldset>
+
+            <legend><b>Part 4: Entrance Exam and Hostel</b></legend>
+
+            <table width="100%">
+
+                <tr>
+
+                    <td valign="top" width="50%">
+
+                        <fieldset>
+
+                            <legend>Exam Centre</legend>
+
+                            <input type="radio" name="exam_centre" value="dhulikhel">
+                            Dhulikhel
+                            <br>
+
+                            <input type="radio" name="exam_centre" value="kathmandu">
+                            Kathmandu
+                            <br>
+
+                            <input type="radio" name="exam_centre" value="pokhara">
+                            Pokhara
+                            <br>
+
+                            <input type="radio" name="exam_centre" value="biratnagar">
+                            Biratnagar
+                            <br>
+
+                            <input type="radio" name="exam_centre" value="nepalgunj">
+                            Nepalgunj
+
+                        </fieldset>
+
+                    </td>
+
+
+                    <td valign="top" width="50%">
+
+                        <fieldset>
+
+                            <legend>Hostel Request</legend>
+
+                            <p>
+                                Do you need a hostel?
+
+                                <input type="radio" name="hostel" value="yes">
+                                Yes
+
+                                <input type="radio" name="hostel" value="no" checked>
+                                No
+                            </p>
+
+                            <p>
+                                Room Type
+
+                                <select name="room_type">
+                                    <option>Twin Sharing</option>
+                                    <option>Single</option>
+                                    <option>Triple Sharing</option>
+                                </select>
+                            </p>
+
+                            <p>
+                                Meal Plan:
+
+                                <input type="checkbox" name="meals" value="breakfast">
+                                Breakfast
+
+                                <input type="checkbox" name="meals" value="lunch">
+                                Lunch
+
+                                <input type="checkbox" name="meals" value="dinner">
+                                Dinner
+                            </p>
+
+                        </fieldset>
+
+                    </td>
+
+                </tr>
+
+            </table>
+
+        </fieldset>
+
+
+        <!-- PART 5 -->
+        <fieldset>
+
+            <legend><b>Part 5: Fee Payment and Declaration</b></legend>
+
+            <table>
+
+                <tr>
+                    <td>Application Fee</td>
+
+                    <td>
+                        <input type="text" name="fee" value="NPR 3,000" readonly>
+                    </td>
+
+                    <td>Paid Through</td>
+
+                    <td>
+                        <select name="paid_through">
+                            <option>Bank Voucher</option>
+                            <option>Online Banking</option>
+                            <option>Digital Wallet</option>
+                        </select>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>Voucher / Transaction ID</td>
+
+                    <td>
+                        <input type="text" name="transaction_id">
+                    </td>
+
+                    <td>Voucher Copy</td>
+
+                    <td>
+                        <input type="file" name="voucher_copy">
+                    </td>
+                </tr>
+
+                <tr>
+                    <td valign="top">
+                        Statement of Purpose
+                    </td>
+
+                    <td colspan="3">
+
+                        <textarea name="statement_of_purpose" rows="5" cols="80" maxlength="3000"
+                            placeholder="Why this programme? What do you plan to research? (max 3000 characters)"></textarea>
+
+                    </td>
+                </tr>
+
+            </table>
+
+
+            <p>
+                Type the code: <b>7KX4P</b>
+
+                <input type="text" name="captcha" size="8">
+            </p>
+
+
+            <p>
+
+                <input type="checkbox" name="declaration" value="yes" required>
+
+                I declare that all information and documents submitted
+                are genuine. I understand that false information will
+                cancel my admission.
+
+            </p>
+
+        </fieldset>
+
+
+        <!-- Buttons -->
+        <p align="center">
+
+            <input type="button" value="Preview">
+
+            <input type="submit" value="Submit Application">
+
+            <input type="reset" value="Reset All">
+
+        </p>
+
+    </form>
+
+</body>
+
+</html>
